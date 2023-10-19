@@ -1,5 +1,6 @@
 import random, time, sys
 
+
 class BeyBlade:
     def __init__(self, name):
         self.name = name
@@ -13,6 +14,7 @@ class BeyBlade:
         self.money = 200
         self.playing = True
         self.rounds_to_play = 3
+        self.upgrades_count = 1
         
     def modifierRand(self):
         return (random.randint(10, 20)) / 10
@@ -34,28 +36,46 @@ class BeyBlade:
 
 class Upgrades:
     # Show upgrades and cost
-    shop_refresh = 1
+    shop_visit = 1
+    strength_random_price = random.randint(12, 48)
+    speed_random_price = random.randint(12, 48)
+    stamina_random_price = random.randint(12, 48)
+    
     def show_upgrades():
-        strength_random_price = random.randint(12, 48)
-        speed_random_price = random.randint(12, 48)
-        stamina_random_price = random.randint(12, 48)
         print(f''' ** Welcome to the UPGRADES shop! **
-[A] Strength stat upgrade: {strength_random_price}
-[B] Speed stat upgrade: {speed_random_price}
-[C] Stamina stat upgrade: {stamina_random_price}\n''')
-        Upgrades.shop_refresh -= 1
+[A] Strength stat upgrade: {Upgrades.strength_random_price} dollars
+[B] Speed stat upgrade: {Upgrades.speed_random_price} dollars
+[C] Stamina stat upgrade: {Upgrades.stamina_random_price} dollars
+
+You can only upgrade once before each battle!''')
+        Upgrades.shop_visit -= 1
+
+    def buy_upgrade(input):
+        if player.upgrades_count >= 1:
+            if input == "A":
+                player.strength += random.randint(23, 55)
+                print("You bought A")
+                player.upgrades_count -= 1
+                player.money -= Upgrades.strength_random_price
+        else:
+            print("You don't have any upgrade slots available!")
 
 def menu():
     while player.playing == True:
         hud()
         choice = input("")
         if choice == "1":
-            print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}\n(Stat modifiers are hidden)\n")
-        if choice == "2":
-            if Upgrades.shop_refresh > 0:
+            print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}\n\n(Stat modifiers are hidden)\nYou have one {player.upgrades_count} upgrade slot available!\n")
+        elif choice == "2":
+            if Upgrades.shop_visit > 0:
                 Upgrades.show_upgrades()
             else:
                 print("You already visited the shop!")
+        elif choice == "3":
+            pass
+        elif choice == "A":
+            Upgrades.buy_upgrade(choice)
+
 
 def delay_print(s):
     for c in s:
@@ -66,7 +86,7 @@ def delay_print(s):
 def hud():
     print(f'''
 ===================================================================
-Rounds left: {player.rounds_to_play}   |   Total BeyBlade power: {player.total_stats}   |   Money: {player.money}''')
+Rounds left: {player.rounds_to_play}   |   Total BeyBlade power: {player.get_total_stats()}   |   Money: {player.money}''')
     print(f'''[1] Check BeyBlade Stats | [2] Go to Upgrade Store | [3] Battle
 ===================================================================\n''')    
 
