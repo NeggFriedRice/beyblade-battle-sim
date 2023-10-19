@@ -10,7 +10,7 @@ class BeyBlade:
         self.stamina = self.statRand()
         self.stamina_modifier = self.modifierRand()
         self.total_stats = self.get_total_stats()
-        self.money = 0
+        self.money = 200
         self.playing = True
         
     def modifierRand(self):
@@ -36,9 +36,18 @@ class BeyBlade:
 
 def menu():
     while player.playing == True:
-        choice = input("What would you like to do?\n[1] Check BeyBlade stats\n[2] Check Upgrade Shop\n[3] Battle\n")
+        hud()
+        choice = input("")
         if choice == "1":
-            print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}")    
+            print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}")
+
+class Battle:
+    rounds_to_play = 3
+
+def hud():
+    print(f'''
+Rounds left: {Battle.rounds_to_play} | Total BeyBlade power: {player.total_stats} | Money: {player.money}
+          ''')    
 
 player = BeyBlade(input("What would you like to name your BeyBlade?\n"))
 player.present_beyblade()
