@@ -14,6 +14,7 @@ class BeyBlade:
         self.playing = True
         self.rounds_to_play = 3
         self.upgrades_count = 1
+        self.opponents_count = 1
         
     def modifierRand(self):
         return (random.randint(10, 20)) / 10
@@ -23,6 +24,31 @@ class BeyBlade:
     
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
+
+class Battle:
+    def battle_lobby(self, opponent):
+        delay_print("Do you want to battle? (Yes or No)\n")
+        battle_yes_no = input()
+        if battle_yes_no.lower() == "yes":
+            Battle.battle(player, opponent)
+        elif battle_yes_no.lower() == "no":
+            print("")
+        else:
+            print("That is not a valid selection")
+
+    def battle(self, opponent):
+        self.rounds_to_play -= 1
+        self.opponents_count += 1
+        if self.get_total_stats() > opponent.get_total_stats():
+            print(f"{self.name} has won the battle!")
+        else:
+            print(f"{self.name} has lost the battle!")
+
+class Opponent(BeyBlade):
+    name_list = ["Ash Ketchum", "Spock (Just Spock)", "Taylor Swift", "Satoru Gojo", "Ron Weasley", "John Howard"]
+    def __init__(self, name):
+        super().__init__(name)
+        player.opponents_count -= 1
 
 class Upgrades:
     # Show upgrades and cost
@@ -61,6 +87,7 @@ You can only upgrade once before each battle!''')
             print("You don't have any upgrade slots available!")
 
 class Dialogue:
+  
     def intro():
         welcome_message = "Welcome to the 2023 Battle BeyBlade Bonanza!\n"
         delay_print(welcome_message)
@@ -96,7 +123,13 @@ class Menu:
                 else:
                     print("Sorry, the shop has closed for the day!")
             elif choice == "3":
-                pass
+                if player.opponents_count > 0:
+                    opponent = Opponent(random.choice(Opponent.name_list))
+                    delay_print(f"Your opponent is {opponent.name}. Their BeyBlade has a total power of {opponent.get_total_stats()}.\n")
+                    Battle.battle_lobby(player, opponent)
+                else:
+                    print(f"You have to beat {opponent.name} first before battling someone else!")
+                    Battle.battle_lobby(player, opponent)
             elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
                 Upgrades.buy_upgrade(choice)
             else:
