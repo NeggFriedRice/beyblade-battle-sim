@@ -22,7 +22,7 @@ class BeyBlade:
         return (random.randint(10, 20)) / 10
     
     def statRand(self):
-        return random.randint(70, 100)
+        return random.randint(85, 100)
     
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
@@ -42,31 +42,45 @@ class Battle:
         self.rounds_to_play -= 1
         self.opponents_count += 1
         player.upgrades_count += 1
-        player.shop_visit += 1
         if self.get_total_stats() > opponent.get_total_stats():
             print(f"{self.name} has won the battle!")
+            player.shop_visit += 1
             player.win_counter += 1
             win_money = random.randint(25, 65)
             player.money += win_money
             print(f"You won ${win_money} for winning this round!")
         elif self.get_total_stats() == opponent.get_total_stats():
+            player.shop_visit += 1
             self.rounds_to_play += 1
             print("It's a draw! No money awarded! You'll need to play an extra round!")
         else:
             lose_money = random.randint(5, 25)
+            player.shop_visit += 1
             player.money -= lose_money
             print(f"{self.name} has lost the battle!")
             print(f"You give ${lose_money} for losing this round! :(")
 
 class Opponent(BeyBlade):
-    name_list = ["Ash Ketchum", "Spock (Just Spock)", "Taylor Swift", "Satoru Gojo", "Ron Weasley", "John Howard"]
+    name_list = [
+        "Ash Ketchum", 
+        "Spock", 
+        "Taylor Swift", 
+        "Satoru Gojo", 
+        "Ron Weasley", 
+        "John Howard"
+        ]
     def __init__(self, name):
+        stats_list = [
+            player.strength,
+            player.speed,
+            player.stamina,
+        ]
         super().__init__(name)
         player.opponents_count -= 1
         if player.rounds_to_play == 2:
-            self.strength = player.strength * (1 + (random.randint(10, 20) / 100))
+            self.strength = random.choice(stats_list) * (1 + (random.randint(10, 30) / 100))
         elif player.rounds_to_play == 1:
-            self.strength = player.strength * (1 + (random.randint(45, 65) / 100))
+            self.strength = random.choice(stats_list) * (1 + (random.randint(45, 65) / 100))
 
 class Upgrades:
     # Show upgrades and cost
