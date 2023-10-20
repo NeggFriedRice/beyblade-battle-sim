@@ -1,6 +1,5 @@
 import random, time, sys
 
-
 class BeyBlade:
     def __init__(self, name):
         self.name = name
@@ -20,12 +19,10 @@ class BeyBlade:
         return (random.randint(10, 20)) / 10
     
     def statRand(self):
-        return random.randint(80, 100)
+        return random.randint(70, 100)
     
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
-
-
 
 class Upgrades:
     # Show upgrades and cost
@@ -36,20 +33,30 @@ class Upgrades:
 
     def show_upgrades():
         print(f''' ** Welcome to the UPGRADES shop! **
-[A] Strength stat upgrade: {Upgrades.strength_random_price} dollars
-[B] Speed stat upgrade: {Upgrades.speed_random_price} dollars
-[C] Stamina stat upgrade: {Upgrades.stamina_random_price} dollars
+[A] Buy Strength stat upgrade: {Upgrades.strength_random_price} dollars
+[B] Buy Speed stat upgrade: {Upgrades.speed_random_price} dollars
+[C] Buy Stamina stat upgrade: {Upgrades.stamina_random_price} dollars
 
 You can only upgrade once before each battle!''')
         Upgrades.shop_visit -= 1
 
     def buy_upgrade(input):
         if player.upgrades_count >= 1:
-            if input == "A":
+            if input.upper() == "A":
                 player.strength += random.randint(23, 55)
-                print("You bought A")
+                print("You bought a STRENGTH upgrade!")
                 player.upgrades_count -= 1
                 player.money -= Upgrades.strength_random_price
+            elif input.upper() == "B":
+                player.speed += random.randint(23, 55)
+                print("You bought a SPEED upgrade!")
+                player.upgrades_count -= 1
+                player.money -= Upgrades.speed_random_price
+            else:
+                player.stamina += random.randint(23, 55)
+                print("You bought a STAMINA upgrade!")
+                player.upgrades_count -= 1
+                player.money -= Upgrades.stamina_random_price
         else:
             print("You don't have any upgrade slots available!")
 
@@ -57,7 +64,6 @@ class Dialogue:
     def intro():
         welcome_message = "Welcome to the 2023 Battle BeyBlade Bonanza!\n"
         delay_print(welcome_message)
-        # print()
         delay_print("Before we get started, could we please have your name for registration?\n")
         player_name = input()
         delay_print(f"Thank you for registering {player_name}! We are so glad to have you here!\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
@@ -88,11 +94,13 @@ class Menu:
                 if Upgrades.shop_visit > 0:
                     Upgrades.show_upgrades()
                 else:
-                    print("You already visited the shop!")
+                    print("Sorry, the shop has closed for the day!")
             elif choice == "3":
                 pass
-            elif choice == "A":
+            elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
                 Upgrades.buy_upgrade(choice)
+            else:
+                print("That's not a valid selection")
 
     def hud():
         print(f'''===================================================================
