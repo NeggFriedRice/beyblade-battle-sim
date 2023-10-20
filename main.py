@@ -12,9 +12,11 @@ class BeyBlade:
         self.total_stats = self.get_total_stats()
         self.money = 200
         self.playing = True
+        self.win_counter = 0
         self.rounds_to_play = 3
         self.upgrades_count = 1
         self.opponents_count = 1
+        self.shop_visit = 1
         
     def modifierRand(self):
         return (random.randint(10, 20)) / 10
@@ -27,7 +29,7 @@ class BeyBlade:
 
 class Battle:
     def battle_lobby(self, opponent):
-        delay_print("Do you want to battle? (Yes or No)\n")
+        delay_print("Do you want to battle? (Yes or No)\n")            
         battle_yes_no = input()
         if battle_yes_no.lower() == "yes":
             Battle.battle(player, opponent)
@@ -39,20 +41,35 @@ class Battle:
     def battle(self, opponent):
         self.rounds_to_play -= 1
         self.opponents_count += 1
+        player.upgrades_count += 1
+        player.shop_visit += 1
         if self.get_total_stats() > opponent.get_total_stats():
             print(f"{self.name} has won the battle!")
+            player.win_counter += 1
+            win_money = random.randint(25, 65)
+            player.money += win_money
+            print(f"You won ${win_money} for winning this round!")
+        elif self.get_total_stats() == opponent.get_total_stats():
+            self.rounds_to_play += 1
+            print("It's a draw! No money awarded! You'll need to play an extra round!")
         else:
+            lose_money = random.randint(5, 25)
+            player.money -= lose_money
             print(f"{self.name} has lost the battle!")
+            print(f"You give ${lose_money} for losing this round! :(")
 
 class Opponent(BeyBlade):
     name_list = ["Ash Ketchum", "Spock (Just Spock)", "Taylor Swift", "Satoru Gojo", "Ron Weasley", "John Howard"]
     def __init__(self, name):
         super().__init__(name)
         player.opponents_count -= 1
+        if player.rounds_to_play == 2:
+            self.strength = player.strength * (1 + (random.randint(10, 20) / 100))
+        elif player.rounds_to_play == 1:
+            self.strength = player.strength * (1 + (random.randint(45, 65) / 100))
 
 class Upgrades:
     # Show upgrades and cost
-    shop_visit = 1
     strength_random_price = random.randint(12, 30)
     speed_random_price = random.randint(12, 30)
     stamina_random_price = random.randint(12, 30)
@@ -64,7 +81,7 @@ class Upgrades:
 [C] Buy Stamina stat upgrade: {Upgrades.stamina_random_price} dollars
 
 You can only upgrade once before each battle!''')
-        Upgrades.shop_visit -= 1
+        player.shop_visit -= 1
 
     def buy_upgrade(input):
         if player.upgrades_count >= 1:
@@ -108,7 +125,7 @@ class Dialogue:
             delay_print(f"It appears that your BeyBlade favours STAMINA upgrades!\n")
     
     def beyblade_stats():
-        print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}\n\n(Stat modifiers are hidden)\nYou have one {player.upgrades_count} upgrade slot available!\n")
+        print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}\n\n(Stat modifiers are hidden)\nYou have {player.upgrades_count} upgrade slot available!\n")
 
 class Menu:
     def menu():
@@ -118,7 +135,7 @@ class Menu:
             if choice == "1":
                 Dialogue.beyblade_stats()
             elif choice == "2":
-                if Upgrades.shop_visit > 0:
+                if player.shop_visit > 0:
                     Upgrades.show_upgrades()
                 else:
                     print("Sorry, the shop has closed for the day!")
@@ -128,7 +145,7 @@ class Menu:
                     delay_print(f"Your opponent is {opponent.name}. Their BeyBlade has a total power of {opponent.get_total_stats()}.\n")
                     Battle.battle_lobby(player, opponent)
                 else:
-                    print(f"You have to beat {opponent.name} first before battling someone else!")
+                    print(f"You have to beat {opponent.name} (Total power: {opponent.get_total_stats()}) first before battling someone else!")
                     Battle.battle_lobby(player, opponent)
             elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
                 Upgrades.buy_upgrade(choice)
