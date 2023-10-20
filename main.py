@@ -78,9 +78,9 @@ class Opponent(BeyBlade):
         super().__init__(name)
         player.opponents_count -= 1
         if player.rounds_to_play == 2:
-            self.strength = random.choice(stats_list) * (1 + (random.randint(10, 30) / 100))
+            self.strength = max(stats_list) * (1 + (random.randint(25, 40) / 100))
         elif player.rounds_to_play == 1:
-            self.strength = random.choice(stats_list) * (1 + (random.randint(45, 65) / 100))
+            self.strength = max(stats_list) * (1 + (random.randint(45, 75) / 100))
 
 class Upgrades:
     # Show upgrades and cost
@@ -103,16 +103,19 @@ You can only upgrade once before each battle!''')
                 player.strength += random.randint(23, 55)
                 print("You bought a STRENGTH upgrade!")
                 player.upgrades_count -= 1
+                player.shop_visit = 0
                 player.money -= Upgrades.strength_random_price
             elif input.upper() == "B":
                 player.speed += random.randint(23, 55)
                 print("You bought a SPEED upgrade!")
                 player.upgrades_count -= 1
+                player.shop_visit = 0
                 player.money -= Upgrades.speed_random_price
             else:
                 player.stamina += random.randint(23, 55)
                 print("You bought a STAMINA upgrade!")
                 player.upgrades_count -= 1
+                player.shop_visit = 0
                 player.money -= Upgrades.stamina_random_price
         else:
             print("You don't have any upgrade slots available!")
