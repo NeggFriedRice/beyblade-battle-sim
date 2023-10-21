@@ -1,16 +1,8 @@
 import random, time, sys
 
-class BeyBlade:
+class Player:
     def __init__(self, name):
         self.name = name
-        self.owner = ""
-        self.strength = self.statRand()
-        self.strength_modifier = self.modifierRand()
-        self.speed = self.statRand()
-        self.speed_modifier = self.modifierRand()
-        self.stamina = self.statRand()
-        self.stamina_modifier = self.modifierRand()
-        self.total_stats = self.get_total_stats()
         self.money = 200
         self.playing = True
         self.win_counter = 0
@@ -18,6 +10,18 @@ class BeyBlade:
         self.upgrades_count = 1
         self.opponents_count = 1
         self.shop_visit = 1
+        self.beyblade = BeyBlade("")
+
+class BeyBlade:
+    def __init__(self, name):
+        self.name = name
+        self.strength = self.statRand()
+        self.strength_modifier = self.modifierRand()
+        self.speed = self.statRand()
+        self.speed_modifier = self.modifierRand()
+        self.stamina = self.statRand()
+        self.stamina_modifier = self.modifierRand()
+        self.total_stats = self.get_total_stats()
         
     def modifierRand(self):
         return (random.randint(10, 20)) / 10
@@ -33,7 +37,7 @@ class Battle:
         delay_print("Do you want to battle? (Yes or No)\n")            
         battle_yes_no = input()
         if battle_yes_no.lower() == "yes":
-            Battle.battle(player, opponent)
+            Battle.battle(player.beyblade, opponent)
         elif battle_yes_no.lower() == "no":
             print("")
         else:
@@ -66,16 +70,9 @@ class Opponent(BeyBlade):
         "Ash Ketchum", 
         "Spock", 
         "Taylor Swift", 
-        "Hagrid", 
+        "Satoru Gojo", 
         "Ron Weasley", 
-        "John Howard",
-        "Captain America",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Michael Cera",
-        "Danny DeVito",
-        "Edward Scissorhands",
-        "Britney Spears"
+        "John Howard"
         ]
     def __init__(self, name):
         stats_list = [
@@ -86,9 +83,9 @@ class Opponent(BeyBlade):
         super().__init__(name)
         player.opponents_count -= 1
         if player.rounds_to_play == 2:
-            self.strength = max(stats_list) * (1 + (random.randint(15, 30) / 100))
+            self.strength = max(stats_list) * (1 + (random.randint(25, 40) / 100))
         elif player.rounds_to_play == 1:
-            self.strength = max(stats_list) * (1 + (random.randint(22, 30) / 100))
+            self.strength = max(stats_list) * (1 + (random.randint(45, 75) / 100))
 
 class Upgrades:
     # Show upgrades and cost
@@ -98,9 +95,9 @@ class Upgrades:
 
     def show_upgrades():
         print(f''' ** Welcome to the UPGRADES shop! **
-[A] Buy STRENGTH stat upgrade: {Upgrades.strength_random_price} dollars
-[B] Buy SPEED stat upgrade: {Upgrades.speed_random_price} dollars
-[C] Buy STAMINA stat upgrade: {Upgrades.stamina_random_price} dollars
+[A] Buy Strength stat upgrade: {Upgrades.strength_random_price} dollars
+[B] Buy Speed stat upgrade: {Upgrades.speed_random_price} dollars
+[C] Buy Stamina stat upgrade: {Upgrades.stamina_random_price} dollars
 
 You can only upgrade once before each battle!''')
         player.shop_visit -= 1
@@ -108,19 +105,19 @@ You can only upgrade once before each battle!''')
     def buy_upgrade(input):
         if player.upgrades_count >= 1:
             if input.upper() == "A":
-                player.strength += random.randint(45, 65)
+                player.strength += random.randint(23, 55)
                 print("You bought a STRENGTH upgrade!")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.strength_random_price
             elif input.upper() == "B":
-                player.speed += random.randint(45, 65)
+                player.speed += random.randint(23, 55)
                 print("You bought a SPEED upgrade!")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.speed_random_price
             else:
-                player.stamina += random.randint(45, 65)
+                player.stamina += random.randint(23, 55)
                 print("You bought a STAMINA upgrade!")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
@@ -134,8 +131,8 @@ class Dialogue:
         welcome_message = "Welcome to the 2023 Battle BeyBlade Bonanza!\n"
         delay_print(welcome_message)
         delay_print("Before we get started, could we please have your name for registration?\n")
-        player.owner = input()
-        delay_print(f"Thank you for registering {player.owner.capitalize()}! We are so glad to have you here!\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
+        player = Player(input())
+        delay_print(f"Thank you for registering {player.name}! We are so glad to have you here!\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
 
     def name_beyblade():
         delay_print("What would you like to name your BeyBlade?\n")
@@ -152,9 +149,6 @@ class Dialogue:
     def beyblade_stats():
         print(f"Your BeyBlade stats:\nStrength: {player.strength}\nSpeed: {player.speed}\nStamina: {player.stamina}\n\n(Stat modifiers are hidden)\nYou have {player.upgrades_count} upgrade slot available!\n")
 
-    def end_game():
-
-        pass
 class Menu:
     def menu():
         while player.playing == True:
@@ -193,10 +187,7 @@ def delay_print(s):
         time.sleep(0.01)
 
 # Main
-player = BeyBlade("")
 Dialogue.intro()
-Dialogue.name_beyblade()
-player.name = input()
 Dialogue.present_beyblade(player)
 Menu.menu()
 
