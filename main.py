@@ -168,9 +168,15 @@ class Dialogue:
         delay_print("Go to the store to upgrade your stats!\n\n")
 
     def end_game():
-        delay_print("That's the end of the tournamen!\n")
+        delay_print("That's the end of the tournament!\n")
         if player.win_counter >= 2 and player.money >= player.money_target:
-            delay_print("Congrats! You take home the trophy!\n")
+            delay_print("Congratulations! You take home the trophy!\n")
+        elif player.win_counter >= 2:
+            delay_print("You get the trophy but you don't have enough money to fly home!\nI've got an Auntie that runs a fish and chip shop in town if you need to make a bit of money..?\n")
+        elif player.money >= player.money_target:
+            delay_print("Unfortunately you didn't win the tournament this time :(\nHave a safe flight home, we'll see you next time!\n")
+        else:
+            delay_print("Yikes, you didn't win the tournament and you can't get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n")
     
 class Menu:
     def menu():
