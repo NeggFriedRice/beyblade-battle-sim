@@ -69,8 +69,6 @@ class Battle:
             delay_print(f"{self.beyblade.name} has lost the battle!\n")
             delay_print(f"You give ${lose_money} for losing this round! :(\n")
 
-
-
 class Opponent(Player):
     name_list = [
         "Ash Ketchum", 
