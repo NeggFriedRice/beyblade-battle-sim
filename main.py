@@ -11,6 +11,7 @@ class Player:
         self.upgrades_count = 1
         self.opponents_count = 1
         self.shop_visit = 1
+        self.money_target = 0
 
 class BeyBlade:
     def __init__(self):
@@ -44,30 +45,28 @@ class Battle:
         else:
             print("That is not a valid selection")
 
-
-
     def battle(self, opponent):
         self.rounds_to_play -= 1
         self.opponents_count += 1
         self.upgrades_count += 1
-        delay_print_slow("========== BATTLING ==========\n")
+        delay_print_slow("\n========== BATTLING ==========\n\n")
         if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats():
             delay_print(f"{self.beyblade.name} has won the battle!\n")
             self.shop_visit += 1
             self.win_counter += 1
             win_money = random.randint(25, 65)
             self.money += win_money
-            delay_print(f"You get ${win_money} for winning this round!\n")
+            delay_print(f"You get ${win_money} for winning this round!\n\n")
         elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats():
             self.shop_visit += 1
             self.rounds_to_play += 1
-            delay_print("It's a draw! No money awarded! You'll need to play an extra round!\n")
+            delay_print("It's a draw! No money awarded! You'll need to play an extra round!\n\n")
         else:
             lose_money = random.randint(5, 25)
             player.shop_visit += 1
             player.money -= lose_money
             delay_print(f"{self.beyblade.name} has lost the battle!\n")
-            delay_print(f"You give ${lose_money} for losing this round! :(\n")
+            delay_print(f"You give ${lose_money} for losing this round! :(\n\n")
 
 class Opponent(Player):
     name_list = [
@@ -113,33 +112,31 @@ class Upgrades:
         print(f''' ** Welcome to the UPGRADES shop! **
 [A] Buy STRENGTH stat upgrade: {Upgrades.strength_random_price} dollars
 [B] Buy SPEED stat upgrade: {Upgrades.speed_random_price} dollars
-[C] Buy STAMINA stat upgrade: {Upgrades.stamina_random_price} dollars
-
-You can only upgrade once before each battle!''')
+[C] Buy STAMINA stat upgrade: {Upgrades.stamina_random_price} dollars\n''')
         player.shop_visit -= 1
 
     def buy_upgrade(input):
         if player.upgrades_count >= 1:
             if input.upper() == "A":
                 player.beyblade.strength += random.randint(45, 65)
-                print("You bought a STRENGTH upgrade!")
+                delay_print("You bought a STRENGTH upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.strength_random_price
             elif input.upper() == "B":
                 player.beyblade.speed += random.randint(45, 65)
-                print("You bought a SPEED upgrade!")
+                delay_print("You bought a SPEED upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.speed_random_price
             else:
                 player.beyblade.stamina += random.randint(45, 65)
-                print("You bought a STAMINA upgrade!")
+                delay_print("You bought a STAMINA upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.stamina_random_price
         else:
-            print("You don't have any upgrade slots available!")
+            delay_print("Oops! You don't have any upgrade slots available!\n")
 
 class Dialogue:
     def intro():
@@ -154,8 +151,8 @@ class Dialogue:
         player.beyblade.name = input()
 
     def rules():
-        money_target = random.randint(175, 235)
-        delay_print(f"\nThis is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {money_target} dollars left in the bank to fly home!\n")
+        player.money_target = random.randint(175, 235)
+        delay_print(f"\nThis is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {player.money_target} dollars left in the bank to fly home!\n\n")
 
     def present_beyblade(self):
         delay_print(f"Here is your Tournament BeyBlade ~ {self.beyblade.name.capitalize()} ~ with a total power of {self.beyblade.total_stats}!\n")
@@ -167,35 +164,42 @@ class Dialogue:
             delay_print(f"It appears that your BeyBlade favours STAMINA upgrades!\n")
     
     def beyblade_stats():
-        print(f"Your BeyBlade stats:\nStrength: {player.beyblade.strength}\nSpeed: {player.beyblade.speed}\nStamina: {player.beyblade.stamina}\n\n(Stat modifiers are hidden)\nGo to the store to upgrade your stats!\n")
+        print(f"Your BeyBlade stats:\nStrength: {player.beyblade.strength}\nSpeed: {player.beyblade.speed}\nStamina: {player.beyblade.stamina}\n\n(Stat modifiers are hidden)\n")
+        delay_print("Go to the store to upgrade your stats!\n\n")
 
     def end_game():
-        pass
+        delay_print("That's the end of the tournamen!\n")
+        if player.win_counter >= 2 and player.money >= player.money_target:
+            delay_print("Congrats! You take home the trophy!\n")
     
 class Menu:
     def menu():
         while player.playing == True:
-            Menu.hud()
-            choice = input("")
-            if choice == "1":
-                Dialogue.beyblade_stats()
-            elif choice == "2":
-                if player.shop_visit > 0:
-                    Upgrades.show_upgrades()
-                else:
-                    print("Sorry, the shop has closed for the day!")
-            elif choice == "3":
-                if player.opponents_count > 0:
-                    opponent = Opponent(random.choice(Opponent.name_list))
-                    delay_print(f"Your opponent is {opponent.name}. Their BeyBlade has a total power of {opponent.beyblade.get_total_stats()}.\n")
-                    Battle.battle_lobby(player, opponent)
-                else:
-                    print(f"You have to beat {opponent.name} (Total power: {opponent.beyblade.get_total_stats()}) first before battling someone else!")
-                    Battle.battle_lobby(player, opponent)
-            elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
-                Upgrades.buy_upgrade(choice)
+            if player.rounds_to_play == 0:
+                Dialogue.end_game()
+                break
             else:
-                print("That's not a valid selection")
+                Menu.hud()
+                choice = input("")
+                if choice == "1":
+                    Dialogue.beyblade_stats()
+                elif choice == "2":
+                    if player.shop_visit > 0:
+                        Upgrades.show_upgrades()
+                    else:
+                        delay_print("Sorry, the shop has closed for the day!\n\n")
+                elif choice == "3":
+                    if player.opponents_count > 0:
+                        opponent = Opponent(random.choice(Opponent.name_list))
+                        delay_print(f"Your opponent is {opponent.name}. Their BeyBlade has a total power of {opponent.beyblade.get_total_stats()}.\n")
+                        Battle.battle_lobby(player, opponent)
+                    else:
+                        print(f"You have to beat {opponent.name} (Total power: {opponent.beyblade.get_total_stats()}) first before battling someone else!")
+                        Battle.battle_lobby(player, opponent)
+                elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
+                    Upgrades.buy_upgrade(choice)
+                else:
+                    print("That's not a valid selection")
 
     def hud():
         print(f'''===================================================================
