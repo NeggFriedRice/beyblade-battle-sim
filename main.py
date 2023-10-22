@@ -102,11 +102,14 @@ class Opponent(Player):
             self.beyblade.strength = max(stats_list) * (1 + (random.randint(22, 30) / 100))
 
 class Upgrades:
-    strength_random_price = random.randint(12, 30)
-    speed_random_price = random.randint(12, 30)
-    stamina_random_price = random.randint(12, 30)
+    strength_random_price = 0
+    speed_random_price = 0
+    stamina_random_price = 0
 
     def show_upgrades():
+        Upgrades.strength_random_price = random.randint(12, 30)
+        Upgrades.speed_random_price = random.randint(12, 30)
+        Upgrades.stamina_random_price = random.randint(12, 30)
         print(f''' ** Welcome to the UPGRADES shop! **
 [A] Buy STRENGTH stat upgrade: {Upgrades.strength_random_price} dollars
 [B] Buy SPEED stat upgrade: {Upgrades.speed_random_price} dollars
@@ -152,7 +155,7 @@ class Dialogue:
 
     def rules():
         money_target = random.randint(175, 235)
-        delay_print(f"This is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {money_target} dollars left in the bank to fly home!\n")
+        delay_print(f"\nThis is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {money_target} dollars left in the bank to fly home!\n")
 
     def present_beyblade(self):
         delay_print(f"Here is your Tournament BeyBlade ~ {self.beyblade.name.capitalize()} ~ with a total power of {self.beyblade.total_stats}!\n")
