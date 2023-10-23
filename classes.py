@@ -274,6 +274,8 @@ class Menu:
                         Upgrades.buy_upgrade(self, choice)
                 except InputError:
                     print(green + "This is not a valid selection" + colres)
+                except KeyboardInterrupt:
+                    Dialogue.quit_game()
                     
     def hud(self):
         print(yellow + f'''=======================================================================
