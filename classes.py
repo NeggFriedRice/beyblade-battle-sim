@@ -67,22 +67,22 @@ class Battle:
     def battle(self, opponent):
         self.rounds_to_play -= 1
         self.opponents_count += 1
-        self.upgrades_count += 1
+        self.upgrades_count = 1
         delay_print_slow(yellow + "\n============================= BATTLING ================================\n\n" + colres)
         if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats():
-            self.shop_visit += 1
+            self.shop_visit = 1
             self.win_counter += 1
             win_money = random.randint(25, 65)
             self.money += win_money
             delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has won the battle!\n" + colres)
             delay_print(green + f"You get ${win_money} for winning this round!\n\n" + colres)
         elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats():
-            self.shop_visit += 1
+            self.shop_visit = 1
             self.rounds_to_play += 1
             delay_print(green + "It's a draw! No money awarded! You'll need to play an extra round!\n\n" + colres)
         else:
             lose_money = random.randint(5, 25)
-            self.shop_visit += 1
+            self.shop_visit = 1
             self.money -= lose_money
             delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has lost the battle!\n" + colres)
             delay_print(green + f"You give ${lose_money} for losing this round! :(\n\n" + colres)
