@@ -61,6 +61,7 @@ class Battle:
                 print("")
 
         except InputError:
+            subprocess.call(['tput', 'reset'])
             print(green + "This is not a valid selection" + colres)
 
     def battle(self, opponent):
@@ -239,6 +240,7 @@ Goodluck!\n\n''' + colres)
         exit()
         
 class InputError(Exception):
+    subprocess.call(['tput', 'reset'])
     print("This is not a valid input")
 
 class Menu:
@@ -276,6 +278,7 @@ class Menu:
                     elif choice.upper() == "Q":
                         Dialogue.quit_game()
                 except InputError:
+                    subprocess.call(['tput', 'reset'])
                     print(green + "This is not a valid selection" + colres)
                 except KeyboardInterrupt:
                     Dialogue.quit_game()

@@ -12,7 +12,7 @@ white = Fore.WHITE
 bright = Style.BRIGHT
 
 ##########################################################################################################
-# buy_upgrades function objects used for testing
+# OBJECTS SETUP: buy_upgrades function objects used for testing
 # Mock BeyBlade object
 mock_beyblade = MagicMock()
 mock_beyblade.strength = 100
@@ -28,7 +28,7 @@ mock_player.beyblade = mock_beyblade
 
 ##########################################################################################################
 # buy_upgrades function - Test 1 - Expect "You don't have enough money!" (Upgrade cost > self.money)
-# Giving upgrade a set price ($250) above self.money ($200) to test else statement
+# Giving upgrade a set price ($250) above self.money ($200) to test fallback else statement
 strength_random_price = 250
 
 def test_buy_upgrades1(self, price):
@@ -45,7 +45,7 @@ test_buy_upgrades1(mock_player, strength_random_price)
 # Actual result = "You don't have enough money!"
 
 ##########################################################################################################
-# buy_upgrades Test 2 - Expect upgrade bought, strength stat to increase, upgrades_count to reduce by 1, shop_visit count to reset to 0
+# buy_upgrades Test 2 - Expect strength upgrade bought, strength stat to increase, upgrades_count to reduce by 1, shop_visit count to reset to 0
 
 # Giving upgrades a set price ($100) below self.money ($200) to test successful upgrade buy
 strength_random_price = 100
