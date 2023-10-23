@@ -39,6 +39,8 @@ def sad_smiley():
     '. '       ' .'
       '-._____.-' \n""" + colres)
     
+# Smileys courtesy of https://www.asciiart.eu/computers/smileys
+    
 def intro_banner():
     print(yellow + '''
 ██████╗  ██████╗ ██████╗ ██████╗     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗
@@ -60,3 +62,4 @@ def intro_banner():
           ██████╔╝╚██████╔╝██║ ╚████║██║  ██║██║ ╚████║███████╗██║  ██║                
           ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝                
                                                                                        ''' + colres)
+# Banner courtesy of https://manytools.org/hacker-tools/ascii-banner/
