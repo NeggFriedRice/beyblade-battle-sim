@@ -144,24 +144,26 @@ class Upgrades:
     def buy_upgrade(self, input):
         subprocess.call(['tput', 'reset'])
         if self.upgrades_count >= 1:
-            if input.upper() == "A":
+            if input.upper() == "A" and self.money >= Upgrades.strength_random_price:
                 self.beyblade.strength += random.randint(45, 65)
                 delay_print(green + "You bought a " + colres + red + "STRENGTH " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.strength_random_price
-            elif input.upper() == "B":
+            elif input.upper() == "B" and self.money >= Upgrades.speed_random_price:
                 self.beyblade.speed += random.randint(45, 65)
                 delay_print(green + "You bought a " + colres + cyan + "SPEED " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.speed_random_price
-            else:
+            elif self.money >= Upgrades.stamina_random_price:
                 self.beyblade.stamina += random.randint(45, 65)
                 delay_print(green + "You bought a " + colres + magenta + "STAMINA " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.stamina_random_price
+            else:
+                delay_print(green + "You don't have enough money!\n" + colres)
         else:
             subprocess.call(['tput', 'reset'])
             delay_print(green + "Oops! You don't have any upgrade slots available!\n" + colres)
@@ -203,7 +205,7 @@ Goodluck!\n\n''' + colres)
     def beyblade_stats(self):
         subprocess.call(['tput', 'reset'])
         delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
-        print(green + "Name: " + white + f"{self.beyblade.name.capitlize()}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
+        print(green + "Name: " + white + f"{self.beyblade.name.capitalize()}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
         delay_print(green + f"Your BeyBlade favours {self.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
         delay_print(green + "Go to the store to upgrade your stats!\n\n" + colres)
 

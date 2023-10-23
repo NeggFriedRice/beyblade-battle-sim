@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-mock_obj = MagicMock()
-mock_obj.name = "bar"
+mock_player = MagicMock()
+mock_player.upgrades_count = 0
 
 print(mock_obj.name)
