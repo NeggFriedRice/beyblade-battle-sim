@@ -1,4 +1,28 @@
-import random, time, sys
+import random, time, sys, subprocess
+from colorama import Fore, Back, Style
+
+def delay_print(s):
+    for c in s:
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(0.01)
+
+def delay_print_slow(s):
+    for c in s:
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(0.03)
+
+colres = Style.RESET_ALL
+red = Fore.RED
+green = Fore.GREEN
+yellow = Fore.YELLOW
+cyan = Fore.CYAN
+blue = Fore.BLUE
+magenta = Fore.MAGENTA
+white = Fore.WHITE
+bright = Style.BRIGHT
+dim = Style.DIM
 
 class Player:
     def __init__(self):
@@ -23,6 +47,7 @@ class BeyBlade:
         self.stamina = self.statRand()
         self.stamina_modifier = self.modifierRand()
         self.total_stats = self.get_total_stats()
+        self.stat_favour = ""
 
         
     def modifierRand(self):
@@ -36,37 +61,41 @@ class BeyBlade:
 
 class Battle:
     def battle_lobby(self, opponent):
-        delay_print("Do you want to battle? (Yes or No)\n")            
-        battle_yes_no = input()
-        if battle_yes_no.lower() == "yes":
-            Battle.battle(player, opponent)
-        elif battle_yes_no.lower() == "no":
-            print("")
-        else:
-            print("That is not a valid selection")
+        delay_print(green + "Do you want to battle? (Y or N)\n" + colres)            
+        try:
+            battle_yes_no = input().lower()
+            if battle_yes_no not in "yn":
+                raise InputError
+            if battle_yes_no == "y":
+                Battle.battle(player, opponent)
+            else:
+                print("")
+
+        except InputError:
+            print(green + "This is not a valid selection" + colres)
 
     def battle(self, opponent):
         self.rounds_to_play -= 1
         self.opponents_count += 1
         self.upgrades_count += 1
-        delay_print_slow("\n========== BATTLING ==========\n\n")
+        delay_print_slow(yellow + "\n========================== BATTLING ==============================\n\n" + colres)
         if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats():
-            delay_print(f"{self.beyblade.name} has won the battle!\n")
             self.shop_visit += 1
             self.win_counter += 1
             win_money = random.randint(25, 65)
             self.money += win_money
-            delay_print(f"You get ${win_money} for winning this round!\n\n")
+            delay_print(green + f"{self.beyblade.name} has won the battle!\n" + colres)
+            delay_print(green + f"You get ${win_money} for winning this round!\n\n" + colres)
         elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats():
             self.shop_visit += 1
             self.rounds_to_play += 1
-            delay_print("It's a draw! No money awarded! You'll need to play an extra round!\n\n")
+            delay_print(green + "It's a draw! No money awarded! You'll need to play an extra round!\n\n" + colres)
         else:
             lose_money = random.randint(5, 25)
             player.shop_visit += 1
             player.money -= lose_money
-            delay_print(f"{self.beyblade.name} has lost the battle!\n")
-            delay_print(f"You give ${lose_money} for losing this round! :(\n\n")
+            delay_print(green + f"{self.beyblade.name} has lost the battle!\n")
+            delay_print(f"You give ${lose_money} for losing this round! :(\n\n" + colres)
 
 class Opponent(Player):
     name_list = [
@@ -106,78 +135,103 @@ class Upgrades:
     stamina_random_price = 0
 
     def show_upgrades():
+        subprocess.call(['tput', 'reset']) 
         Upgrades.strength_random_price = random.randint(12, 30)
         Upgrades.speed_random_price = random.randint(12, 30)
         Upgrades.stamina_random_price = random.randint(12, 30)
-        print(f''' ** Welcome to the UPGRADES shop! **
-[A] Buy STRENGTH stat upgrade: {Upgrades.strength_random_price} dollars
-[B] Buy SPEED stat upgrade: {Upgrades.speed_random_price} dollars
-[C] Buy STAMINA stat upgrade: {Upgrades.stamina_random_price} dollars\n''')
+        delay_print(green + "** Welcome to the UPGRADES shop! **\n\n" + colres)
+        print(green + "[" + colres + "A" + green + "] Buy " + red + "STRENGTH " + colres + green + f"stat upgrade: {Upgrades.strength_random_price} dollars" + colres)
+        print(green + "[" + colres + "B" + green + "] Buy " + cyan + "SPEED " + colres + green + f"stat upgrade: {Upgrades.speed_random_price} dollars" + colres)
+        print(green + "[" + colres + "C" + green + "] Buy " + magenta + "STAMINA " + colres + green + f"stat upgrade: {Upgrades.stamina_random_price} dollars\n" + colres)
+
         player.shop_visit -= 1
 
     def buy_upgrade(input):
+        subprocess.call(['tput', 'reset']) 
         if player.upgrades_count >= 1:
             if input.upper() == "A":
                 player.beyblade.strength += random.randint(45, 65)
-                delay_print("You bought a STRENGTH upgrade!\n\n")
+                delay_print(green + "You bought a " + colres + red + "STRENGTH " + colres + green + "upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.strength_random_price
             elif input.upper() == "B":
                 player.beyblade.speed += random.randint(45, 65)
-                delay_print("You bought a SPEED upgrade!\n\n")
+                delay_print(green + "You bought a " + colres + cyan + "SPEED " + colres + green + "upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.speed_random_price
             else:
                 player.beyblade.stamina += random.randint(45, 65)
-                delay_print("You bought a STAMINA upgrade!\n\n")
+                delay_print(green + "You bought a " + colres + magenta + "STAMINA " + colres + green + "upgrade!\n\n")
                 player.upgrades_count -= 1
                 player.shop_visit = 0
                 player.money -= Upgrades.stamina_random_price
         else:
+            subprocess.call(['tput', 'reset']) 
             delay_print("Oops! You don't have any upgrade slots available!\n")
 
 class Dialogue:
     def intro():
-        welcome_message = "Welcome to the 2023 Battle BeyBlade Bonanza!\n"
+        welcome_message = (green + "Welcome to the 2023 Battle BeyBlade Bonanza!\n")
         delay_print(welcome_message)
-        delay_print("Before we get started, could we please have your name for registration?\n")
+        delay_print("Before we get started, could we please have your name for registration?\n" + colres)
         player.name = input()
-        delay_print(f"Thank you for registering {player.name.capitalize()}! We are so glad to have you here!\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
-
+        delay_print(green + f"\nThank you for registering " + colres + white + bright + f"{player.name.capitalize()}" + colres + green + "! We are so glad to have you here!\n\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
+        
     def name_beyblade():
-        delay_print("What would you like to name your BeyBlade?\n")
+        delay_print("What would you like to name your BeyBlade?\n" + colres)
         player.beyblade.name = input()
 
     def rules():
         player.money_target = random.randint(175, 235)
-        delay_print(f"\nThis is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {player.money_target} dollars left in the bank to fly home!\n\n")
+        # delay_print(f"\nThis is a 3 round tournament! To win you will need to win AT LEAST 2 out of the 3 rounds\nand have {player.money_target} dollars left in the bank to fly home!\n\n")
+        delay_print(green + f'''
+TOURNAMENT RULES:
+- 3 round tournament
+- To win you will need to win at least 2 out of 3 rounds AND
+- Have {player.money_target} dollars left in the bank to fly home!
+                    
+Goodluck!\n\n''' + colres)
 
     def present_beyblade(self):
-        delay_print(f"Here is your Tournament BeyBlade ~ {self.beyblade.name.capitalize()} ~ with a total power of {self.beyblade.total_stats}!\n")
+        delay_print(green + "\nHere is your Tournament BeyBlade " + white + bright + f"~ {self.beyblade.name.capitalize()} ~ " + green + "with a total power of " + white + bright + f"{self.beyblade.total_stats}!\n" + colres)
         if self.beyblade.strength_modifier > self.beyblade.speed_modifier and self.beyblade.strength_modifier > self.beyblade.stamina_modifier:
-            delay_print(f"It appears that your BeyBlade favours STRENGTH upgrades!\n")
+            self.beyblade.stat_favour = (red +"STRENGTH" + colres)
+            delay_print(green + "It appears that your BeyBlade favours " + red + "STRENGTH " + green + "upgrades!\n" + colres)
         elif self.beyblade.speed_modifier > self.beyblade.stamina_modifier:
-            delay_print(f"It appears that your BeyBlade favours SPEED upgrades!\n")
+            self.beyblade.stat_favour = (cyan +"SPEED" + colres)
+            delay_print(green + "It appears that your BeyBlade favours " + cyan + "SPEED " + green + "upgrades!\n" + colres)
         else:
-            delay_print(f"It appears that your BeyBlade favours STAMINA upgrades!\n")
+            self.beyblade.stat_favour = (magenta +"STAMINA" + colres)
+            delay_print(green + "It appears that your BeyBlade favours " + magenta + "STAMINA " + green + "upgrades!\n" + colres)
     
     def beyblade_stats():
-        print(f"Your BeyBlade stats:\nStrength: {player.beyblade.strength}\nSpeed: {player.beyblade.speed}\nStamina: {player.beyblade.stamina}\n\n(Stat modifiers are hidden)\n")
-        delay_print("Go to the store to upgrade your stats!\n\n")
+        subprocess.call(['tput', 'reset'])
+        delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
+        print(green + "Name: " + white + f"{player.beyblade.name}\n" + red + "STRENGTH: " + white + f"{player.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{player.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{player.beyblade.stamina}\n" + colres)
+        delay_print(green + f"Your BeyBlade favours {player.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
+        delay_print(green + "Go to the store to upgrade your stats!\n\n" + colres)
+
+    def player_stats():
+        subprocess.call(['tput', 'reset'])
+        delay_print(green + "Player Information:\n\n" + colres) 
+        print(green + "Name: " + white + f"{player.name}\n" + green + "BeyBlade: " + white + f"{player.beyblade.name}\n"+ green + "Money: " + white + f"{player.money}\n"+ green + "Money needed to get home: " + white + f"{player.money_target}\n" + green + "Wins: " + white + f"{player.win_counter}\n" + colres)
 
     def end_game():
-        delay_print("That's the end of the tournament!\n")
+        delay_print(yellow + "===================================================================\n\n" + colres + green + "That's the end of the tournament!\n")
         if player.win_counter >= 2 and player.money >= player.money_target:
-            delay_print("Congratulations! You take home the trophy!\n")
+            delay_print("Congratulations! You take home the trophy!\nHave a safe flight home!\n\n" + colres)
         elif player.win_counter >= 2:
-            delay_print("You get the trophy but you don't have enough money to fly home!\nI've got an Auntie that runs a fish and chip shop in town if you need to make a bit of money..?\n")
+            delay_print("Congratulations! You get the trophy but you don't have enough money to fly home!\nI've got an Auntie that runs a fish and chip shop in town if you need to make a bit of money..?\n\n" + colres)
         elif player.money >= player.money_target:
-            delay_print("Unfortunately you didn't win the tournament this time :(\nHave a safe flight home, we'll see you next time!\n")
+            delay_print("Unfortunately you didn't win the tournament this time :(\nHave a safe flight home, we'll see you next time!\n\n" + colres)
         else:
-            delay_print("Yikes, you didn't win the tournament and you can't get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n")
-    
+            delay_print("Yikes, you didn't win the tournament and you don't have enough money to get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n\n" + colres)
+
+class InputError(Exception):
+    pass
+
 class Menu:
     def menu():
         while player.playing == True:
@@ -186,46 +240,44 @@ class Menu:
                 break
             else:
                 Menu.hud()
-                choice = input("")
-                if choice == "1":
-                    Dialogue.beyblade_stats()
-                elif choice == "2":
-                    if player.shop_visit > 0:
-                        Upgrades.show_upgrades()
-                    else:
-                        delay_print("Sorry, the shop has closed for the day!\n\n")
-                elif choice == "3":
-                    if player.opponents_count > 0:
-                        opponent = Opponent(random.choice(Opponent.name_list))
-                        delay_print(f"Your opponent is {opponent.name}. Their BeyBlade has a total power of {opponent.beyblade.get_total_stats()}.\n")
-                        Battle.battle_lobby(player, opponent)
-                    else:
-                        print(f"You have to beat {opponent.name} (Total power: {opponent.beyblade.get_total_stats()}) first before battling someone else!")
-                        Battle.battle_lobby(player, opponent)
-                elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
-                    Upgrades.buy_upgrade(choice)
-                else:
-                    print("That's not a valid selection")
-
+                try:
+                    choice = input("")
+                    if choice not in "1234abc":
+                        raise InputError()
+                    if choice == "1":
+                        Dialogue.beyblade_stats()
+                    elif choice == "2":
+                        if player.shop_visit > 0:
+                            Upgrades.show_upgrades()
+                        else:
+                            delay_print(green + "Sorry, the shop has closed for the day!\n\n" + colres)
+                    elif choice == "3":
+                        subprocess.call(['tput', 'reset']) 
+                        if player.opponents_count > 0:
+                            opponent = Opponent(random.choice(Opponent.name_list))
+                            delay_print(green + "Your opponent is " + colres + white + bright + f"{opponent.name}" + colres + green + ". Their BeyBlade has a total power of " + white + f"{opponent.beyblade.get_total_stats()}.\n" + colres)
+                            Battle.battle_lobby(player, opponent)
+                        else:
+                            delay_print(green + f"You have to beat {opponent.name} (Total power: {opponent.beyblade.get_total_stats()}) first before battling someone else!\n" + colres)
+                            Battle.battle_lobby(player, opponent)
+                    elif choice == "4":
+                        Dialogue.player_stats()
+                    elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
+                        Upgrades.buy_upgrade(choice)
+                except InputError:
+                    print(green + "This is not a valid selection" + colres)
+                    
     def hud():
-        print(f'''===================================================================
-Rounds left: {player.rounds_to_play}   |   Total BeyBlade power: {player.beyblade.get_total_stats()}   |   Money: {player.money}''')
-        print(f'''[1] Check BeyBlade Stats | [2] Go to Upgrade Store | [3] Battle
-===================================================================''') 
+        print(yellow + f'''=======================================================================
+Rounds left: {player.rounds_to_play}   |   Total BeyBlade power: {player.beyblade.get_total_stats()}   |   Money: {player.money}\n''')
+        print('''[1] Check BeyBlade Stats | [2] Go to Upgrade Store | [3] Battle Lobby
+[4] Check Player Info                                        [Q] Quit
+=======================================================================''' + colres) 
     
-def delay_print(s):
-    for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(0.01)
 
-def delay_print_slow(s):
-    for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(0.05)
 
 # Main
+subprocess.call(['tput', 'reset']) 
 player = Player()
 Dialogue.intro()
 Dialogue.name_beyblade()
