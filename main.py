@@ -1,5 +1,5 @@
 import random, time, sys, subprocess
-from art import trophy, smiley, sad_smiley
+from art import trophy, smiley, sad_smiley, intro_banner
 from colorama import Fore, Back, Style
 
 def delay_print(s):
@@ -85,7 +85,7 @@ class Battle:
             self.win_counter += 1
             win_money = random.randint(25, 65)
             self.money += win_money
-            delay_print(green + f"{self.beyblade.name.capitalize()} has won the battle!\n" + colres)
+            delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has won the battle!\n" + colres)
             delay_print(green + f"You get ${win_money} for winning this round!\n\n" + colres)
         elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats():
             self.shop_visit += 1
@@ -95,7 +95,7 @@ class Battle:
             lose_money = random.randint(5, 25)
             player.shop_visit += 1
             player.money -= lose_money
-            delay_print(green + f"{self.beyblade.name.capitalize()} has lost the battle!\n")
+            delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has lost the battle!\n" + colres)
             delay_print(f"You give ${lose_money} for losing this round! :(\n\n" + colres)
 
 class Opponent(Player):
@@ -288,7 +288,8 @@ Rounds left: {player.rounds_to_play}   |   Total BeyBlade power: {player.beyblad
         print("=======================================================================" + colres) 
     
 # Main
-subprocess.call(['tput', 'reset']) 
+subprocess.call(['tput', 'reset'])
+intro_banner()
 player = Player()
 Dialogue.intro()
 Dialogue.name_beyblade()
