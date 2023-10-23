@@ -126,6 +126,7 @@ class Upgrades:
 
     def show_upgrades(self):
         subprocess.call(['tput', 'reset']) 
+        self.shop_visit -= 1
         Upgrades.strength_random_price = random.randint(12, 30)
         Upgrades.speed_random_price = random.randint(12, 30)
         Upgrades.stamina_random_price = random.randint(12, 30)
@@ -133,8 +134,12 @@ class Upgrades:
         print(green + "[" + colres + "A" + green + "] Buy " + red + "STRENGTH " + colres + green + f"stat upgrade: {Upgrades.strength_random_price} dollars" + colres)
         print(green + "[" + colres + "B" + green + "] Buy " + cyan + "SPEED " + colres + green + f"stat upgrade: {Upgrades.speed_random_price} dollars" + colres)
         print(green + "[" + colres + "C" + green + "] Buy " + magenta + "STAMINA " + colres + green + f"stat upgrade: {Upgrades.stamina_random_price} dollars\n" + colres)
-
-        self.shop_visit -= 1
+        Menu.hud(self)
+        choice = input("")
+        if choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
+            Upgrades.buy_upgrade(self, choice)
+        else: 
+            raise InputError()
 
     def buy_upgrade(self, input):
         subprocess.call(['tput', 'reset'])
@@ -175,7 +180,6 @@ class Dialogue:
 
     def rules(self):
         self.money_target = random.randint(175, 235)
-
         delay_print(green + f'''
 TOURNAMENT RULES:
 - 3 round tournament
@@ -199,7 +203,7 @@ Goodluck!\n\n''' + colres)
     def beyblade_stats(self):
         subprocess.call(['tput', 'reset'])
         delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
-        print(green + "Name: " + white + f"{self.beyblade.name}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
+        print(green + "Name: " + white + f"{self.beyblade.name.capitlize()}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
         delay_print(green + f"Your BeyBlade favours {self.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
         delay_print(green + "Go to the store to upgrade your stats!\n\n" + colres)
 
@@ -234,7 +238,7 @@ Goodluck!\n\n''' + colres)
         exit()
         
 class InputError(Exception):
-    pass
+    print("This is not a valid input")
 
 class Menu:
     def menu(self):
@@ -246,7 +250,7 @@ class Menu:
                 Menu.hud(self)
                 try:
                     choice = input("")
-                    if choice not in "1234abcq":
+                    if choice not in "1234q":
                         raise InputError()
                     if choice == "1":
                         Dialogue.beyblade_stats(self)
@@ -270,8 +274,6 @@ class Menu:
                         Dialogue.player_stats(self)
                     elif choice.upper() == "Q":
                         Dialogue.quit_game()
-                    elif choice.upper() == "A" or choice.upper() == "B" or choice.upper() == "C":
-                        Upgrades.buy_upgrade(self, choice)
                 except InputError:
                     print(green + "This is not a valid selection" + colres)
                 except KeyboardInterrupt:
