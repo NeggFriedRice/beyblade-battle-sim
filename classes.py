@@ -12,7 +12,6 @@ blue = Fore.BLUE
 magenta = Fore.MAGENTA
 white = Fore.WHITE
 bright = Style.BRIGHT
-dim = Style.DIM
 
 class Player:
     def __init__(self):
