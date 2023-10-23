@@ -1,11 +1,6 @@
-import random, time, sys, subprocess
 from art import *
 from classes import *
 from functions import *
-
-
-
-
     
 # Main
 subprocess.call(['tput', 'reset'])
@@ -16,5 +11,3 @@ Dialogue.name_beyblade(player)
 Dialogue.present_beyblade(player)
 Dialogue.rules(player)
 Menu.menu(player)
-
-

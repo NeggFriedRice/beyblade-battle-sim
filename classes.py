@@ -1,4 +1,4 @@
-import random, time, sys, subprocess
+import random, subprocess
 from art import *
 from colorama import Fore, Back, Style
 from functions import *
@@ -44,7 +44,7 @@ class BeyBlade:
         return (random.randint(10, 20)) / 10
     
     def statRand(self):
-        return random.randint(85, 100)
+        return random.randint(80, 100)
     
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
@@ -85,7 +85,7 @@ class Battle:
             self.shop_visit += 1
             self.money -= lose_money
             delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has lost the battle!\n" + colres)
-            delay_print(f"You give ${lose_money} for losing this round! :(\n\n" + colres)
+            delay_print(green + f"You give ${lose_money} for losing this round! :(\n\n" + colres)
 
 class Opponent(Player):
     name_list = [
@@ -185,7 +185,7 @@ TOURNAMENT RULES:
 Goodluck!\n\n''' + colres)
 
     def present_beyblade(self):
-        delay_print(green + "\nHere is your Tournament BeyBlade " + white + bright + f"~ {self.beyblade.name.capitalize()} ~ " + green + "with a total power of " + white + bright + f"{self.beyblade.total_stats}!\n" + colres)
+        delay_print(green + "\nHere is your Tournament BeyBlade " + white + bright + f"~ {self.beyblade.name.capitalize()} ~ " + colres + green + "with a total power of " + white + bright + f"{self.beyblade.total_stats}!\n" + colres)
         if self.beyblade.strength_modifier > self.beyblade.speed_modifier and self.beyblade.strength_modifier > self.beyblade.stamina_modifier:
             self.beyblade.stat_favour = (red +"STRENGTH" + colres)
             delay_print(green + "It appears that your BeyBlade favours " + red + "STRENGTH " + green + "upgrades!\n" + colres)
@@ -213,15 +213,19 @@ Goodluck!\n\n''' + colres)
         if self.win_counter >= 2 and self.money >= self.money_target:
             trophy(self)
             delay_print(green + "Congratulations! You take home the trophy!\nHave a safe flight home!\n\n" + colres)
+            Menu.end_game_option()
         elif self.win_counter >= 2:
             trophy(self)
             delay_print(green + "Congratulations! You get the trophy but you don't have enough money to fly home!\nI've got an Auntie that runs a fish and chip shop in town if you need to make a bit of money..?\n\n" + colres)
+            Menu.end_game_option()
         elif self.money >= self.money_target:
             smiley()
             delay_print(green + "Unfortunately you didn't win the tournament this time :(\nHave a safe flight home, we'll see you next time!\n\n" + colres)
+            Menu.end_game_option()
         else:
             sad_smiley()
             delay_print(green + "Yikes, you didn't win the tournament and you don't have enough money to get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n\n" + colres)
+            Menu.end_game_option()
            
     def quit_game():
         subprocess.call(['tput', 'reset'])
@@ -257,6 +261,7 @@ class Menu:
                         if self.opponents_count > 0:
                             opponent = Opponent(random.choice(Opponent.name_list))
                             delay_print(green + "Your opponent is " + colres + white + bright + f"{opponent.name}" + colres + green + ". Their BeyBlade has a total power of " + white + f"{opponent.beyblade.get_total_stats()}.\n" + colres)
+                            self.opponents_count -= 1
                             Battle.battle_lobby(self, opponent)
                         else:
                             delay_print(green + f"You have to beat " + white + f"{opponent.name} " + green + "(Total power: " + white + f"{opponent.beyblade.get_total_stats()}" + green+ ") first before battling someone else!\n" + colres)
@@ -276,3 +281,10 @@ Rounds left: {self.rounds_to_play}   |   Total BeyBlade power: {self.beyblade.ge
         print("[" + white + "1" + yellow + "] Check BeyBlade Stats | [" + white + "2" + yellow + "] Go to Upgrades Store | [" + white + "3" + yellow + "] Battle Lobby")
         print("[" + white + "4" + yellow + "] Check Player Info                                         [" + white + "Q" + yellow + "] Quit")
         print("=======================================================================" + colres) 
+    
+    def end_game_option():
+        while True:
+            choice = input(green + "[" + white + "Q" + green +"] to exit the game: \n")
+            if choice.lower() == "q":
+                Dialogue.quit_game()
+                break
