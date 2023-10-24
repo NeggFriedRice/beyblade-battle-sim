@@ -62,7 +62,7 @@ def intro_banner():
           ██████╔╝╚██████╔╝██║ ╚████║██║  ██║██║ ╚████║███████╗██║  ██║                
           ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝                
                                                                                        ''' + colres)
-# Banner courtesy of https://manytools.org/hacker-tools/ascii-banner/
+
 
 def upgrades_banner():
   print(yellow + '''
@@ -123,3 +123,4 @@ def finish_banner():
 ██║     ██║██║ ╚████║██║███████║██║  ██║
 ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝
                                         \n''' + colres)
+# Banners courtesy of https://manytools.org/hacker-tools/ascii-banner/

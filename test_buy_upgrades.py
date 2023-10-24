@@ -52,6 +52,9 @@ test_buy_upgrades(mock_player, strength_random_price1)
 # Expected mock_player.beyblade.__dict__: self.beyblade.strength = 150
 
 test_buy_upgrades(mock_player, strength_random_price2)
+print(mock_player.beyblade.__dict__)
+print(mock_player.__dict__)
+
 
 # Actual mock_player.__dict__: self.upgrades_count = 0, self.shop_visit = 0, self.money = 100
 # Actual mock_player.beyblade.__dict__: self.beyblade.strength = 150

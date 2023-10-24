@@ -17,7 +17,6 @@ mock_player1.money = 250
 mock_player1.money_target = 201
 mock_player1.win_counter = 2
 
-
 # Mock player 2 object for Test 2 (Lose tournament and fly home: Wins < 2 and player money >= player money target)
 mock_player2 = MagicMock()
 mock_player2.beyblade = mock_beyblade
