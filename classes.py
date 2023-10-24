@@ -3,6 +3,7 @@ from art import *
 from colorama import Fore, Back, Style
 from functions import *
 
+# Variable shortcuts for colorama styling
 colres = Style.RESET_ALL
 red = Fore.RED
 green = Fore.GREEN
@@ -13,6 +14,7 @@ magenta = Fore.MAGENTA
 white = Fore.WHITE
 bright = Style.BRIGHT
 
+# Player object
 class Player:
     def __init__(self):
         self.name = ""
@@ -26,6 +28,7 @@ class Player:
         self.shop_visit = 1
         self.money_target = 0
 
+# Beyblade object
 class BeyBlade:
     def __init__(self):
         self.name = ""
@@ -38,7 +41,7 @@ class BeyBlade:
         self.total_stats = self.get_total_stats()
         self.stat_favour = ""
 
-        
+    # Stat randomisers
     def modifierRand(self):
         return (random.randint(10, 20)) / 10
     
@@ -48,7 +51,9 @@ class BeyBlade:
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
 
+# Battle mechanic
 class Battle:
+    # Battle lobby that gives player opportunity to check opponent stats and go back to the shop to upgrade
     def battle_lobby(self, opponent):
         delay_print(green + "Do you want to battle? (" + white + "Y" + green + " or " + white + "N" + green + ")\n" + colres)            
         try:
@@ -63,30 +68,31 @@ class Battle:
         except InputError:
             clear_screen()
             print(green + "This is not a valid selection" + colres)
-
+    # Battle mechanic
     def battle(self, opponent):
-        self.rounds_to_play -= 1
-        self.opponents_count += 1
-        self.upgrades_count = 1
+        self.rounds_to_play -= 1                # Subtracts 1 from number of rounds player needs to be play
+        self.opponents_count += 1               # Allows player to refresh opponent
+        self.upgrades_count = 1                 # Allows player to buy another upgrade
         delay_print_slow(yellow + "\n============================= BATTLING ================================\n\n" + colres)
-        if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats():
-            self.shop_visit = 1
-            self.win_counter += 1
-            win_money = random.randint(25, 65)
-            self.money += win_money
+        if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats(): # Win outcome
+            self.shop_visit = 1                 # Allows player to visit shop again
+            self.win_counter += 1               # Add 1 to player win counter
+            win_money = random.randint(25, 65)  # Randomise win awarded money
+            self.money += win_money             # Add awarded money to player money
             delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has won the battle!\n" + colres)
             delay_print(green + f"You get ${win_money} for winning this round!\n\n" + colres)
-        elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats():
+        elif self.beyblade.get_total_stats() == opponent.beyblade.get_total_stats(): # Draw outcome
             self.shop_visit = 1
             self.rounds_to_play += 1
             delay_print(green + "It's a draw! No money awarded! You'll need to play an extra round!\n\n" + colres)
-        else:
+        else: # Lose outcome
             lose_money = random.randint(5, 25)
             self.shop_visit = 1
             self.money -= lose_money
             delay_print(white + f"{self.beyblade.name.capitalize()} " + green + "has lost the battle!\n" + colres)
             delay_print(green + f"You give ${lose_money} for losing this round! :(\n\n" + colres)
 
+# Opponent object that inherits attributes from Player object; with added list for randomised opponent name
 class Opponent(Player):
     name_list = [
         "Ash Ketchum", 
@@ -107,25 +113,29 @@ class Opponent(Player):
     
     def __init__(self, name):
         super().__init__()
+        self.opponents_count -= 1
         self.name = name
+        # Stat balancer as rounds progress to give opponent chance of higher stats to nudge player into buying upgrade
         stats_list = [
             self.beyblade.strength,
             self.beyblade.speed,
             self.beyblade.stamina,
         ]
-        self.opponents_count -= 1
         if self.rounds_to_play == 2:
             self.beyblade.strength = max(stats_list) * (1 + (random.randint(15, 30) / 100))
         elif self.rounds_to_play == 1:
             self.beyblade.strength = max(stats_list) * (1 + (random.randint(22, 30) / 100))
 
 class Upgrades:
+    # Set upgrade prices to zero initially
     strength_random_price = 0
     speed_random_price = 0
     stamina_random_price = 0
 
+    # Show upgrades to player
     def show_upgrades(self):
         clear_screen()
+        # Subtract shop_visit counter by 1 to only allow player to visit shop once per round
         self.shop_visit -= 1
         Upgrades.strength_random_price = random.randint(12, 30)
         Upgrades.speed_random_price = random.randint(12, 30)
@@ -143,8 +153,10 @@ class Upgrades:
 
     def buy_upgrade(self, input):
         clear_screen()
+        # Upgrade failsafe, upgrades_count check prevents user from buying more than one upgrade per round
         if self.upgrades_count >= 1:
             if input.upper() == "A" and self.money >= Upgrades.strength_random_price:
+                # Add random int to stat if bought
                 self.beyblade.strength += random.randint(45, 65)
                 delay_print(green + "You bought a " + colres + red + "STRENGTH " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
@@ -169,17 +181,21 @@ class Upgrades:
             delay_print(green + "Oops! You don't have any upgrade slots available!\n" + colres)
 
 class Dialogue:
+    # Welcome message
     def intro(self):
         welcome_message = (green + "Welcome to the 2023 Battle BeyBlade Bonanza!\n")
         delay_print(welcome_message)
         delay_print("Before we get started, could we please have your name for registration?\n" + colres)
+        # Prompt player for name
         self.name = input()
         delay_print(green + f"\nThank you for registering " + white + bright + f"{self.name.capitalize()}" + colres + green + "! We are so glad to have you here!\n\nAs per the tournament rules, you will be renting one of our Tournament BeyBlades!\n")
         
+    # Prompt player to name their BeyBlade    
     def name_beyblade(self):
         delay_print("What would you like to name your BeyBlade?\n" + colres)
         self.beyblade.name = input()
 
+    # Display rules to player
     def rules(self):
         self.money_target = random.randint(175, 235)
         delay_print(green + f'''
@@ -189,7 +205,7 @@ TOURNAMENT RULES:
 - Have {self.money_target} dollars left in the bank to fly home!
                     
 Goodluck!\n\n''' + colres)
-
+    # Display BeyBlade to player and state which stat upgrades the BeyBlade benefits the most from (stat modifier with the highest multiplier)
     def present_beyblade(self):
         delay_print(green + "\nHere is your Tournament BeyBlade " + white + bright + f"~ {self.beyblade.name.capitalize()} ~ " + colres + green + "with a total power of " + white + bright + f"{self.beyblade.total_stats}!\n" + colres)
         if self.beyblade.strength_modifier > self.beyblade.speed_modifier and self.beyblade.strength_modifier > self.beyblade.stamina_modifier:
@@ -202,6 +218,7 @@ Goodluck!\n\n''' + colres)
             self.beyblade.stat_favour = (magenta +"STAMINA" + colres)
             delay_print(green + "It appears that your BeyBlade favours " + magenta + "STAMINA " + green + "upgrades!\n" + colres)
     
+    # BeyBlade stats info (name, strength stat, speed stat, stamina stat, highest stat modifier)
     def beyblade_stats(self):
         clear_screen()
         delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
@@ -209,13 +226,16 @@ Goodluck!\n\n''' + colres)
         delay_print(green + f"Your BeyBlade favours {self.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
         delay_print(green + "Go to the store to upgrade your stats!\n\n" + colres)
 
+    # Player stats info (name, BeyBlade name, money, money needed to get home, number of wins)
     def player_stats(self):
         clear_screen()
         delay_print(green + "Player Information:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.name.capitalize()}\n" + green + "BeyBlade: " + white + f"{self.beyblade.name.capitalize()}\n"+ green + "Money: " + white + f"{self.money}\n"+ green + "Money needed to get home: " + white + f"{self.money_target}\n" + green + "Wins: " + white + f"{self.win_counter}\n" + colres)
 
+    # End game dialogue
     def end_game(self):
         delay_print(yellow + "===================================================================\n\n" + colres + green + "That's the end of the tournament!\n")
+        # Display different message based on player end game stats
         if self.win_counter >= 2 and self.money >= self.money_target:
             trophy(self)
             delay_print(green + "Congratulations! You take home the trophy!\nHave a safe flight home!\n\n" + colres)
@@ -232,49 +252,59 @@ Goodluck!\n\n''' + colres)
             sad_smiley()
             delay_print(green + "Yikes, you didn't win the tournament and you don't have enough money to get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n\n" + colres)
             Menu.end_game_option()
-           
+
+    # Quit game goodbye message       
     def quit_game():
         clear_screen()
         print(green + "Thanks for playing, see you next time!")
         time.sleep(3)
         exit()
-        
+
+# Exception handling        
 class InputError(Exception):
     clear_screen()
     print("This is not a valid input")
 
+# Menu class
 class Menu:
     def menu(self):
         while self.playing == True:
+            # menu function checks after each input if end game requirements satisfied (rounds_to_play == 0)
             if self.rounds_to_play == 0:
                 Dialogue.end_game(self)
                 break
             else:
+                # If game is still in progress then HUD will show
                 Menu.hud(self)
                 try:
+                    # Check player input and call function based on selection
                     choice = input("")
                     if choice not in "1234q":
                         raise InputError()
-                    if choice == "1":
+                    if choice == "1": # BeyBlade stats
                         Dialogue.beyblade_stats(self)
-                    elif choice == "2":
+                    elif choice == "2": # Show upgrade store options
                         if self.shop_visit > 0:
                             Upgrades.show_upgrades(self)
-                        else:
+                        else: # Only allow 1 shop visit per round, if no shop visits left show below message
                             clear_screen()
                             delay_print(green + "Sorry, the shop has closed for the day!\n\n" + colres)
                     elif choice == "3":
                         clear_screen() 
                         if self.opponents_count > 0:
+                            # Create new opponent object if player enters the battle lobby
                             opponent = Opponent(random.choice(Opponent.name_list))
                             delay_print(green + "Your opponent is " + colres + white + bright + f"{opponent.name}" + colres + green + ". Their BeyBlade has a total power of " + white + f"{opponent.beyblade.get_total_stats()}.\n" + colres)
+                            # Subtract 1 from player opponent count; ensures player cannot refresh opponent until win/lose against current opponent
                             self.opponents_count -= 1
                             Battle.battle_lobby(self, opponent)
                         else:
                             delay_print(green + f"You have to beat " + white + f"{opponent.name} " + green + "(Total power: " + white + f"{opponent.beyblade.get_total_stats()}" + green+ ") first before battling someone else!\n" + colres)
                             Battle.battle_lobby(self, opponent)
+                    # Show player stats
                     elif choice == "4":
                         Dialogue.player_stats(self)
+                    # Quit game function
                     elif choice.upper() == "Q":
                         Dialogue.quit_game()
                 except InputError:
@@ -283,6 +313,7 @@ class Menu:
                 except KeyboardInterrupt:
                     Dialogue.quit_game()
                     
+    # Show menu HUD and info to player
     def hud(self):
         print(yellow + f'''=======================================================================
 Rounds left: {self.rounds_to_play}   |   Total BeyBlade power: {self.beyblade.get_total_stats()}   |   Money: {self.money}\n''')
@@ -290,6 +321,7 @@ Rounds left: {self.rounds_to_play}   |   Total BeyBlade power: {self.beyblade.ge
         print("[" + white + "4" + yellow + "] Check Player Info                                         [" + white + "Q" + yellow + "] Quit")
         print("=======================================================================" + colres) 
     
+    # Exit game option after tournament ends
     def end_game_option():
         while True:
             choice = input(green + "[" + white + "Q" + green +"] to exit the game: \n")
