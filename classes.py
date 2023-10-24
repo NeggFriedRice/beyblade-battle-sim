@@ -61,7 +61,7 @@ class Battle:
                 print("")
 
         except InputError:
-            subprocess.call(['tput', 'reset'])
+            clear_screen()
             print(green + "This is not a valid selection" + colres)
 
     def battle(self, opponent):
@@ -125,7 +125,7 @@ class Upgrades:
     stamina_random_price = 0
 
     def show_upgrades(self):
-        subprocess.call(['tput', 'reset']) 
+        clear_screen()
         self.shop_visit -= 1
         Upgrades.strength_random_price = random.randint(12, 30)
         Upgrades.speed_random_price = random.randint(12, 30)
@@ -142,7 +142,7 @@ class Upgrades:
             raise InputError()
 
     def buy_upgrade(self, input):
-        subprocess.call(['tput', 'reset'])
+        clear_screen()
         if self.upgrades_count >= 1:
             if input.upper() == "A" and self.money >= Upgrades.strength_random_price:
                 self.beyblade.strength += random.randint(45, 65)
@@ -165,7 +165,7 @@ class Upgrades:
             else:
                 delay_print(green + "You don't have enough money!\n" + colres)
         else:
-            subprocess.call(['tput', 'reset'])
+            clear_screen()
             delay_print(green + "Oops! You don't have any upgrade slots available!\n" + colres)
 
 class Dialogue:
@@ -203,14 +203,14 @@ Goodluck!\n\n''' + colres)
             delay_print(green + "It appears that your BeyBlade favours " + magenta + "STAMINA " + green + "upgrades!\n" + colres)
     
     def beyblade_stats(self):
-        subprocess.call(['tput', 'reset'])
+        clear_screen()
         delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.beyblade.name.capitalize()}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
         delay_print(green + f"Your BeyBlade favours {self.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
         delay_print(green + "Go to the store to upgrade your stats!\n\n" + colres)
 
     def player_stats(self):
-        subprocess.call(['tput', 'reset'])
+        clear_screen()
         delay_print(green + "Player Information:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.name.capitalize()}\n" + green + "BeyBlade: " + white + f"{self.beyblade.name.capitalize()}\n"+ green + "Money: " + white + f"{self.money}\n"+ green + "Money needed to get home: " + white + f"{self.money_target}\n" + green + "Wins: " + white + f"{self.win_counter}\n" + colres)
 
@@ -234,13 +234,13 @@ Goodluck!\n\n''' + colres)
             Menu.end_game_option()
            
     def quit_game():
-        subprocess.call(['tput', 'reset'])
+        clear_screen()
         print(green + "Thanks for playing, see you next time!")
         time.sleep(3)
         exit()
         
 class InputError(Exception):
-    subprocess.call(['tput', 'reset'])
+    clear_screen()
     print("This is not a valid input")
 
 class Menu:
@@ -261,10 +261,10 @@ class Menu:
                         if self.shop_visit > 0:
                             Upgrades.show_upgrades(self)
                         else:
-                            subprocess.call(['tput', 'reset'])
+                            clear_screen()
                             delay_print(green + "Sorry, the shop has closed for the day!\n\n" + colres)
                     elif choice == "3":
-                        subprocess.call(['tput', 'reset']) 
+                        clear_screen() 
                         if self.opponents_count > 0:
                             opponent = Opponent(random.choice(Opponent.name_list))
                             delay_print(green + "Your opponent is " + colres + white + bright + f"{opponent.name}" + colres + green + ". Their BeyBlade has a total power of " + white + f"{opponent.beyblade.get_total_stats()}.\n" + colres)
@@ -278,7 +278,7 @@ class Menu:
                     elif choice.upper() == "Q":
                         Dialogue.quit_game()
                 except InputError:
-                    subprocess.call(['tput', 'reset'])
+                    clear_screen()
                     print(green + "This is not a valid selection" + colres)
                 except KeyboardInterrupt:
                     Dialogue.quit_game()
