@@ -137,6 +137,7 @@ class Upgrades:
     # Show upgrades to player
     def show_upgrades(self):
         clear_screen()
+        upgrades_banner()
         # Subtract shop_visit counter by 1 to only allow player to visit shop once per round
         self.shop_visit -= 1
         Upgrades.strength_random_price = random.randint(15, 35)
@@ -224,6 +225,7 @@ Goodluck!\n\n''' + colres)
     # BeyBlade stats info (name, strength stat, speed stat, stamina stat, highest stat modifier)
     def beyblade_stats(self):
         clear_screen()
+        stats_banner()
         delay_print(green + "Your BeyBlade stats:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.beyblade.name.capitalize()}\n" + red + "STRENGTH: " + white + f"{self.beyblade.strength}\n" + cyan + "SPEED: " + white + f"{self.beyblade.speed}\n" + magenta + "STAMINA: " + white + f"{self.beyblade.stamina}\n" + green + "Total power: " + white + f"{self.beyblade.get_total_stats()}\n" + colres)
         delay_print(green + f"Your BeyBlade favours {self.beyblade.stat_favour} " + green + "upgrades\n(Your BeyBlade has hidden unique stat modifiers that we can't check!)\n\n" + colres)
@@ -232,11 +234,14 @@ Goodluck!\n\n''' + colres)
     # Player stats info (name, BeyBlade name, money, money needed to get home, number of wins)
     def player_stats(self):
         clear_screen()
+        player_info_banner()
         delay_print(green + "Player Information:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.name.capitalize()}\n" + green + "BeyBlade: " + white + f"{self.beyblade.name.capitalize()}\n"+ green + "Money: " + white + f"{self.money}\n"+ green + "Money needed to get home: " + white + f"{self.money_target}\n" + green + "Wins: " + white + f"{self.win_counter}\n" + colres)
 
     # End game dialogue
     def end_game(self):
+        clear_screen()
+        finish_banner()
         delay_print(yellow + "===================================================================\n\n" + colres + green + "That's the end of the tournament!\n")
         # Display different message based on player end game stats
         if self.win_counter >= 2 and self.money >= self.money_target:
@@ -259,6 +264,7 @@ Goodluck!\n\n''' + colres)
     # Quit game goodbye message       
     def quit_game():
         clear_screen()
+        thankyou_banner()
         print(green + "Thanks for playing, see you next time!")
         time.sleep(3)
         exit()
@@ -291,9 +297,11 @@ class Menu:
                             Upgrades.show_upgrades(self)
                         else: # Only allow 1 shop visit per round, if no shop visits left show below message
                             clear_screen()
+                            upgrades_banner()
                             delay_print(green + "Sorry, the shop has closed for the day!\n\n" + colres)
                     elif choice == "3":
-                        clear_screen() 
+                        clear_screen()
+                        battle_banner() 
                         if self.opponents_count > 0:
                             # Create new opponent object if player enters the battle lobby
                             opponent = Opponent(random.choice(Opponent.name_list), self)

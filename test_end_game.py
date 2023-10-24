@@ -6,16 +6,21 @@ from classes import *
 ##########################################################################################################
 
 # OBJECTS SETUP: 
+mock_beyblade = MagicMock()
+mock_beyblade.name = "Mock_Beyblade"
 
 # Mock player 1 object for Test 1 (Win tournament and fly home: Wins >= 2 and player money >= player money target)
 mock_player1 = MagicMock()
+mock_player1.beyblade = mock_beyblade
 mock_player1.name = "Mock Player 1"
 mock_player1.money = 250
 mock_player1.money_target = 201
 mock_player1.win_counter = 2
 
+
 # Mock player 2 object for Test 2 (Lose tournament and fly home: Wins < 2 and player money >= player money target)
 mock_player2 = MagicMock()
+mock_player2.beyblade = mock_beyblade
 mock_player2.name = "Mock Player 2"
 mock_player2.money = 201
 mock_player2.money_target = 200
@@ -23,6 +28,7 @@ mock_player2.win_counter = 1
 
 # Mock player 3 object for Test 3 (Win tournament and can't fly home: Wins >= 2 and player money < player money target)
 mock_player3 = MagicMock()
+mock_player3.beyblade = mock_beyblade
 mock_player3.name = "Mock Player 3"
 mock_player3.money = 199
 mock_player3.money_target = 200
@@ -30,6 +36,7 @@ mock_player3.win_counter = 2
 
 # Mock player 4 object for Test 4 (Lose tournament and can't fly home: Wins < 2 and player money < player money target)
 mock_player4 = MagicMock()
+mock_player4.beyblade = mock_beyblade
 mock_player4.name = "Mock Player 4"
 mock_player4.money = 199
 mock_player4.money_target = 200
