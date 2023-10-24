@@ -1,6 +1,6 @@
-import random, subprocess
+import random
 from art import *
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 from functions import *
 
 # Variable shortcuts for colorama styling
@@ -43,15 +43,16 @@ class BeyBlade:
 
     # Stat randomisers
     def modifierRand(self):
-        return (random.randint(10, 20)) / 10
+        return (random.randint(10, 16)) / 10
     
     def statRand(self):
-        return random.randint(80, 100)
+        return random.randint(82, 95)
     
+    # Total stats getter
     def get_total_stats(self):
         return round(self.strength * self.strength_modifier + self.speed * self.speed_modifier + self.stamina * self.stamina_modifier)
 
-# Battle mechanic
+# Battle class
 class Battle:
     # Battle lobby that gives player opportunity to check opponent stats and go back to the shop to upgrade
     def battle_lobby(self, opponent):
@@ -68,14 +69,15 @@ class Battle:
         except InputError:
             clear_screen()
             print(green + "This is not a valid selection" + colres)
+
     # Battle mechanic
     def battle(self, opponent):
         self.rounds_to_play -= 1                # Subtracts 1 from number of rounds player needs to be play
-        self.opponents_count += 1               # Allows player to refresh opponent
-        self.upgrades_count = 1                 # Allows player to buy another upgrade
+        self.opponents_count += 1               # Allows player to refresh new opponent after battle
+        self.upgrades_count = 1                 # Allows player to buy another upgrade after battle
         delay_print_slow(yellow + "\n============================= BATTLING ================================\n\n" + colres)
         if self.beyblade.get_total_stats() > opponent.beyblade.get_total_stats(): # Win outcome
-            self.shop_visit = 1                 # Allows player to visit shop again
+            self.shop_visit = 1                 # Allows player to visit shop again after battle
             self.win_counter += 1               # Add 1 to player win counter
             win_money = random.randint(25, 65)  # Randomise win awarded money
             self.money += win_money             # Add awarded money to player money
@@ -111,7 +113,7 @@ class Opponent(Player):
         "Chris Phenalthamakhunam"
         ]
     
-    def __init__(self, name):
+    def __init__(self, name, player):
         super().__init__()
         self.opponents_count -= 1
         self.name = name
@@ -121,10 +123,10 @@ class Opponent(Player):
             self.beyblade.speed,
             self.beyblade.stamina,
         ]
-        if self.rounds_to_play == 2:
-            self.beyblade.strength = max(stats_list) * (1 + (random.randint(15, 30) / 100))
-        elif self.rounds_to_play == 1:
-            self.beyblade.strength = max(stats_list) * (1 + (random.randint(22, 30) / 100))
+        if player.rounds_to_play == 2:
+            self.beyblade.strength = max((max(stats_list) * (1 + (random.randint(15, 20) / 100))), 150)
+        elif player.rounds_to_play == 1:
+            self.beyblade.strength = max(((max(stats_list) * (1 + (random.randint(20, 30) / 100)))), 200)
 
 class Upgrades:
     # Set upgrade prices to zero initially
@@ -205,6 +207,7 @@ TOURNAMENT RULES:
 - Have {self.money_target} dollars left in the bank to fly home!
                     
 Goodluck!\n\n''' + colres)
+        
     # Display BeyBlade to player and state which stat upgrades the BeyBlade benefits the most from (stat modifier with the highest multiplier)
     def present_beyblade(self):
         delay_print(green + "\nHere is your Tournament BeyBlade " + white + bright + f"~ {self.beyblade.name.capitalize()} ~ " + colres + green + "with a total power of " + white + bright + f"{self.beyblade.total_stats}!\n" + colres)
@@ -293,7 +296,7 @@ class Menu:
                         clear_screen() 
                         if self.opponents_count > 0:
                             # Create new opponent object if player enters the battle lobby
-                            opponent = Opponent(random.choice(Opponent.name_list))
+                            opponent = Opponent(random.choice(Opponent.name_list), self)
                             delay_print(green + "Your opponent is " + colres + white + bright + f"{opponent.name}" + colres + green + ". Their BeyBlade has a total power of " + white + f"{opponent.beyblade.get_total_stats()}.\n" + colres)
                             # Subtract 1 from player opponent count; ensures player cannot refresh opponent until win/lose against current opponent
                             self.opponents_count -= 1
