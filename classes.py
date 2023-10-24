@@ -160,6 +160,7 @@ class Upgrades:
         if self.upgrades_count >= 1:
             if input.upper() == "A" and self.money >= Upgrades.strength_random_price:
                 # Add random int to stat if bought
+                upgrades_banner()
                 self.beyblade.strength += random.randint(40, 65)
                 delay_print(green + "You bought a " + colres + red + "STRENGTH " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
@@ -167,20 +168,24 @@ class Upgrades:
                 self.money -= Upgrades.strength_random_price
             elif input.upper() == "B" and self.money >= Upgrades.speed_random_price:
                 self.beyblade.speed += random.randint(40, 65)
+                upgrades_banner()
                 delay_print(green + "You bought a " + colres + cyan + "SPEED " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.speed_random_price
             elif self.money >= Upgrades.stamina_random_price:
+                upgrades_banner()
                 self.beyblade.stamina += random.randint(40, 65)
                 delay_print(green + "You bought a " + colres + magenta + "STAMINA " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.stamina_random_price
             else:
+                upgrades_banner()
                 delay_print(green + "You don't have enough money!\n" + colres)
         else:
             clear_screen()
+            upgrades_banner()
             delay_print(green + "Oops! You don't have any upgrade slots available!\n" + colres)
 
 class Dialogue:
