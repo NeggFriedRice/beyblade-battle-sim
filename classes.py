@@ -139,9 +139,9 @@ class Upgrades:
         clear_screen()
         # Subtract shop_visit counter by 1 to only allow player to visit shop once per round
         self.shop_visit -= 1
-        Upgrades.strength_random_price = random.randint(12, 30)
-        Upgrades.speed_random_price = random.randint(12, 30)
-        Upgrades.stamina_random_price = random.randint(12, 30)
+        Upgrades.strength_random_price = random.randint(15, 35)
+        Upgrades.speed_random_price = random.randint(15, 35)
+        Upgrades.stamina_random_price = random.randint(15, 35)
         delay_print(green + "** Welcome to the UPGRADES shop! **\n\n" + colres)
         print(green + "[" + colres + "A" + green + "] Buy " + red + "STRENGTH " + colres + green + f"stat upgrade: {Upgrades.strength_random_price} dollars" + colres)
         print(green + "[" + colres + "B" + green + "] Buy " + cyan + "SPEED " + colres + green + f"stat upgrade: {Upgrades.speed_random_price} dollars" + colres)
@@ -159,19 +159,19 @@ class Upgrades:
         if self.upgrades_count >= 1:
             if input.upper() == "A" and self.money >= Upgrades.strength_random_price:
                 # Add random int to stat if bought
-                self.beyblade.strength += random.randint(45, 65)
+                self.beyblade.strength += random.randint(40, 65)
                 delay_print(green + "You bought a " + colres + red + "STRENGTH " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.strength_random_price
             elif input.upper() == "B" and self.money >= Upgrades.speed_random_price:
-                self.beyblade.speed += random.randint(45, 65)
+                self.beyblade.speed += random.randint(40, 65)
                 delay_print(green + "You bought a " + colres + cyan + "SPEED " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
                 self.money -= Upgrades.speed_random_price
             elif self.money >= Upgrades.stamina_random_price:
-                self.beyblade.stamina += random.randint(45, 65)
+                self.beyblade.stamina += random.randint(40, 65)
                 delay_print(green + "You bought a " + colres + magenta + "STAMINA " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
                 self.shop_visit = 0
@@ -199,7 +199,7 @@ class Dialogue:
 
     # Display rules to player
     def rules(self):
-        self.money_target = random.randint(175, 235)
+        self.money_target = random.randint(185, 255)
         delay_print(green + f'''
 TOURNAMENT RULES:
 - 3 round tournament
