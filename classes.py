@@ -449,7 +449,7 @@ class Menu:
                                         white + bright + f"{opponent.name}" +
                                         colres + green + ". Their BeyBlade "
                                         "has a total power of " + white +
-                                        (f"{opponent.beyblade.get_total_stats()}")
+                                        f"{opponent.beyblade.get_total_stats()}"
                                         ".\n" + colres)
                             # Subtract 1 from player opponent count; ensures
                             # player cannot refresh opponent until win/lose

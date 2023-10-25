@@ -10,6 +10,7 @@ def delay_print(s):
         sys.stdout.flush()
         time.sleep(0.01)
 
+
 # Delay print function but slower
 def delay_print_slow(s):
     for c in s:
@@ -17,6 +18,7 @@ def delay_print_slow(s):
         sys.stdout.flush()
         time.sleep(0.03)
 
+
 # Clear screen function
 def clear_screen():
-    subprocess.call(['tput', 'reset']) 
+    subprocess.call(['tput', 'reset'])
