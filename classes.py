@@ -424,7 +424,6 @@ class Menu:
             # satisfied (rounds_to_play == 0)
             if self.rounds_to_play == 0:
                 Dialogue.tournament_end(self)
-                # Dialogue.end_game(self)
                 break
             else:
                 # If game is still in progress then HUD will show
