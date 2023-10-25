@@ -353,13 +353,21 @@ Goodluck!\n\n
         print(green + "Money: " + white + f"{self.money}\n" + colres)
         Menu.end_game_option()
 
+    def tournament_end(self):
+        delay_print(green + "That's the end of the tournament!\nPress enter "
+                    "to continue\n" + colres)
+        choice = "1"
+        while choice != "":
+            choice = input()
+            if choice == "":
+                Dialogue.end_game(self)
+
     # End game dialogue
     def end_game(self):
         clear_screen()
         finish_banner()
         delay_print(yellow + "==============================================="
-                    "====================\n\n" + colres + green +
-                    "That's the end of the tournament!\n")
+                    "====================\n")
         # Display different message based on player end game stats
         if self.win_counter >= 2 and self.money >= self.money_target:
             trophy(self)
@@ -415,7 +423,8 @@ class Menu:
             # menu function checks after each input if end game requirements
             # satisfied (rounds_to_play == 0)
             if self.rounds_to_play == 0:
-                Dialogue.end_game(self)
+                Dialogue.tournament_end(self)
+                # Dialogue.end_game(self)
                 break
             else:
                 # If game is still in progress then HUD will show
