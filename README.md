@@ -17,9 +17,12 @@ Thomas Loo - T1A3 - Terminal App
     - Python 3.10 or higher
     - Terminal application
 
+- Hardware:
+    - Keyboard
+
 # Installation Instructions
 
-1. If you are a Microsoft Windows user you will not be able to run this app without the Windows Subsystem for Linux (WSL). If you have not previously installed WSL please follow this guide for setup:
+1. If you are a Microsoft Windows user you will not be able to run this app without the Windows Subsystem for Linux (WSL). If you have not previously installed WSL please follow the below guide for setup:
 
     https://learn.microsoft.com/en-us/windows/wsl/install
 
@@ -46,4 +49,39 @@ Thomas Loo - T1A3 - Terminal App
     ```
     git clone https://github.com/NeggFriedRice/terminal_app.git
     ```
-1. Navigate to the 
+1. Navigate to the folder that contains the app
+    ```
+    cd terminal_app
+    ```
+1. Run the bash script with:
+    ```
+    bash beyblade.sh
+    ```
+    This bash script will do the following:
+    - Check whether Python 3 has been installed on yoru system
+    - Create and activate a virtual environment
+    - Install the required dependencies (please see 'Dependencies' section for more information)
+    - Run the app file
+    - Deactivate the virtual environment when the app is closed
+
+    If you encounter issues running the bash script, enter the following into the terminal
+    ```
+    chmod +x beyblade.sh 
+    ```
+1. Enjoy the game!
+
+# Dependencies
+
+```
+colorama==0.4.6
+```
+# How to play the game
+- You have arrived on the scene of an international BeyBlade tournament
+- To take the win you will need to win at least 2 out of 3 rounds and have enough money leftover to fly home
+
+- The game will require keyboard inputs to navigate through the different sections.
+
+    ![HUD](./docs/HUD.png)
+
+    ![Upgrades shop](./docs/SHOP.png)
+- That's it! Enjoy yourself
