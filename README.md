@@ -2,6 +2,16 @@
 
 Thomas Loo - T1A3 - Terminal App
 
+## Links
+
+- [Github Repository](https://github.com/NeggFriedRice/terminal_app)
+- [Trello](https://trello.com/invite/b/z6dHuYUU/ATTIe6504be03f81ae2c10268f144856b9a937278F7B/t1a3-kanban)
+- Presentation
+
+## Code style
+- PEP8 style
+
+Please note that Line 458 of class.py file and ASCII banner art in art.py excceeds the 79 character limit due to long variable name and nesting.
 # Help Documentation
 
 ### Operating system and hardware requirements
