@@ -1,2 +1,49 @@
-# Terminal_App
-T1A3 - Coder Academy assignment repository
+# BeyBlade Battle Simulator
+
+Thomas Loo - T1A3 - Terminal App
+
+# Help Documentation
+
+### Operating system and hardware requirements
+
+- Modern Operating System:
+    - Windows 7 or 10
+    - Mac OS X 10.11 or higher, 64-bit
+    - Linux: RHEL 6/7, 64-bit (almost all libraries also work in Ubuntu)
+    - 4 GB RAM
+    - 5 GB free disk space
+
+- Software:
+    - Python 3.10 or higher
+    - Terminal application
+
+# Installation Instructions
+
+1. If you are a Microsoft Windows user you will not be able to run this app without the Windows Subsystem for Linux (WSL). If you have not previously installed WSL please follow this guide for setup:
+
+    https://learn.microsoft.com/en-us/windows/wsl/install
+
+1. Check that you have Python installed. Open your terminal and execute the following command:
+
+    ```
+    python3 --version
+    ```
+
+    Your terminal should return the below, or similar:
+
+    ```
+    Python 3.10.12
+    ```
+    If Python is not installed you will receive the following message and will need to download Python:
+    ```
+    'python3' not found
+    ```
+    Please head over to Python's website to download the latest version of Python and follow the guide for instructions.
+
+    https://www.python.org/downloads/
+
+1. Clone the app repository to your local environment
+    ```
+    git clone https://github.com/NeggFriedRice/terminal_app.git
+    ```
+1. Navigate to the 
