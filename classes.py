@@ -241,6 +241,20 @@ Goodluck!\n\n''' + colres)
         delay_print(green + "Player Information:\n\n" + colres) 
         print(green + "Name: " + white + f"{self.name.capitalize()}\n" + green + "BeyBlade: " + white + f"{self.beyblade.name.capitalize()}\n"+ green + "Money: " + white + f"{self.money}\n"+ green + "Money needed to get home: " + white + f"{self.money_target}\n" + green + "Wins: " + white + f"{self.win_counter}\n" + colres)
 
+    def end_game_stats(self):
+        print(green + "Here are your end game stats: ")
+        print(green + "Name: " + white + f"{self.name}" + colres)
+        print(green + "BeyBlade: " + white + f"{self.beyblade.name.capitalize()}" + colres)
+        print(red + "Strength: " + white + f"{self.beyblade.strength}" + colres)
+        print(cyan + "Speed: " + white + f"{self.beyblade.speed}" + colres)
+        print(magenta + "Stamina: " + white + f"{self.beyblade.stamina}\n" + colres)
+        print(red + "Strength Modifier: " + white + f"{self.beyblade.strength_modifier}" + colres)
+        print(cyan + "Speed Modifier: " + white + f"{self.beyblade.speed_modifier}" + colres)
+        print(magenta + "Stamina Modifier: " + white + f"{self.beyblade.stamina_modifier}\n" + colres)
+        print(green + "Wins: " + white + f"{self.win_counter}" + colres)
+        print(green + "Money: " + white + f"{self.money}\n" + colres)
+        Menu.end_game_option()
+
     # End game dialogue
     def end_game(self):
         clear_screen()
@@ -250,18 +264,22 @@ Goodluck!\n\n''' + colres)
         if self.win_counter >= 2 and self.money >= self.money_target:
             trophy(self)
             delay_print(green + "Congratulations! You take home the trophy!\nHave a safe flight home!\n\n" + colres)
+            Dialogue.end_game_stats(self)
             Menu.end_game_option()
         elif self.win_counter >= 2:
             trophy(self)
             delay_print(green + "Congratulations! You get the trophy but you don't have enough money to fly home!\nI've got an Auntie that runs a fish and chip shop in town if you need to make a bit of money..?\n\n" + colres)
+            Dialogue.end_game_stats(self)
             Menu.end_game_option()
         elif self.money >= self.money_target:
             smiley()
             delay_print(green + "Unfortunately you didn't win the tournament this time :(\nHave a safe flight home, we'll see you next time!\n\n" + colres)
+            Dialogue.end_game_stats(self)
             Menu.end_game_option()
         else:
             sad_smiley()
             delay_print(green + "Yikes, you didn't win the tournament and you don't have enough money to get home.\nMy brother has 6 children, I heard he's looking for a babysitter...\n\n" + colres)
+            Dialogue.end_game_stats(self)
             Menu.end_game_option()
 
     # Quit game goodbye message       
