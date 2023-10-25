@@ -6,7 +6,7 @@ Thomas Loo - T1A3 - Terminal App
 
 - [Github Repository](https://github.com/NeggFriedRice/terminal_app)
 - [Trello](https://trello.com/invite/b/z6dHuYUU/ATTIe6504be03f81ae2c10268f144856b9a937278F7B/t1a3-kanban)
-- [Presentation](./ppt/Terminal%20App%20Presentation%20-%20T1A3%20-%20Thomas%20Loo.pdf)
+- [Presentation](./ppt/Terminal%20App%20Presentation%20-%20T1A3%20-%20Thomas%20Loo.pdf) (Please open with desktop PDF viewer to view comments in sidebar)
 
 ## Code style
 - PEP8 style
