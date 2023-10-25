@@ -1,4 +1,6 @@
 from colorama import Fore, Back, Style
+
+
 yellow = Fore.YELLOW
 colres = Style.RESET_ALL
 
@@ -14,9 +16,11 @@ def trophy(player):
          _/_______\_
         /___________\ 
         {player.name} and {player.beyblade.name}
-        2023 Champions\n''' + colres)
+        2023 Champions\n
+''' + colres)
 
-# Trophy art courtesy of jgs: https://github.com/joeky888/ASCII-Art-collection/blob/master/t/trophy.txt
+# Trophy art courtesy of jgs: 
+# https://github.com/joeky888/ASCII-Art-collection/blob/master/t/trophy.txt
 
 def smiley():
     print (yellow + """
@@ -27,7 +31,8 @@ def smiley():
   |  \           /  |
    \  '.       .'  /
     '.  `'---'`  .'
-      '-._____.-' \n""" + colres)
+      '-._____.-' \n
+""" + colres)
     
 def sad_smiley():
     print (yellow + """
@@ -37,7 +42,8 @@ def sad_smiley():
   |            `'   |
    \    .----._    .'  
     '. '       ' .'
-      '-._____.-' \n""" + colres)
+      '-._____.-' \n
+""" + colres)
     
 # Smileys courtesy of https://www.asciiart.eu/computers/smileys
     
@@ -60,8 +66,8 @@ def intro_banner():
           ██████╔╝██║   ██║██╔██╗ ██║███████║██╔██╗ ██║  ███╔╝ ███████║                
           ██╔══██╗██║   ██║██║╚██╗██║██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║                
           ██████╔╝╚██████╔╝██║ ╚████║██║  ██║██║ ╚████║███████╗██║  ██║                
-          ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝                
-                                                                                       ''' + colres)
+          ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝\n            
+''' + colres)
 
 
 def upgrades_banner():
@@ -71,8 +77,8 @@ def upgrades_banner():
 ██║   ██║██████╔╝██║  ███╗██████╔╝███████║██║  ██║█████╗  ███████╗
 ██║   ██║██╔═══╝ ██║   ██║██╔══██╗██╔══██║██║  ██║██╔══╝  ╚════██║
 ╚██████╔╝██║     ╚██████╔╝██║  ██║██║  ██║██████╔╝███████╗███████║
- ╚═════╝ ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝
-                                                                  \n''' + colres)
+ ╚═════╝ ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝\n\n
+''' + colres)
   
 def stats_banner():
     print(yellow + '''
@@ -81,8 +87,8 @@ def stats_banner():
 ███████╗   ██║   ███████║   ██║   ███████╗
 ╚════██║   ██║   ██╔══██║   ██║   ╚════██║
 ███████║   ██║   ██║  ██║   ██║   ███████║
-╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝
-                                          \n''' + colres)
+╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝\n\n
+''' + colres)
 
 def player_info_banner():
     print(yellow + '''
@@ -91,8 +97,8 @@ def player_info_banner():
 ██║██╔██╗ ██║█████╗  ██║   ██║
 ██║██║╚██╗██║██╔══╝  ██║   ██║
 ██║██║ ╚████║██║     ╚██████╔╝
-╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ 
-                              \n''' + colres)
+╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ \n\n
+''' + colres)
     
 def battle_banner():
     print(yellow + '''
@@ -101,8 +107,8 @@ def battle_banner():
 ██████╔╝███████║   ██║      ██║   ██║     █████╗  
 ██╔══██╗██╔══██║   ██║      ██║   ██║     ██╔══╝  
 ██████╔╝██║  ██║   ██║      ██║   ███████╗███████╗
-╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝
-                                                  \n''' + colres)
+╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝\n\n
+''' + colres)
 
 def thankyou_banner():
     print(yellow + '''
@@ -111,8 +117,8 @@ def thankyou_banner():
    ██║   ███████║███████║██╔██╗ ██║█████╔╝  ╚████╔╝ ██║   ██║██║   ██║
    ██║   ██╔══██║██╔══██║██║╚██╗██║██╔═██╗   ╚██╔╝  ██║   ██║██║   ██║
    ██║   ██║  ██║██║  ██║██║ ╚████║██║  ██╗   ██║   ╚██████╔╝╚██████╔╝
-   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ 
-                                                                      \n''' + colres)
+   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ \n\n
+''' + colres)
     
 def finish_banner():
     print(yellow + '''
@@ -121,6 +127,6 @@ def finish_banner():
 █████╗  ██║██╔██╗ ██║██║███████╗███████║
 ██╔══╝  ██║██║╚██╗██║██║╚════██║██╔══██║
 ██║     ██║██║ ╚████║██║███████║██║  ██║
-╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝
-                                        \n''' + colres)
+╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝\n\n
+''' + colres)
 # Banners courtesy of https://manytools.org/hacker-tools/ascii-banner/

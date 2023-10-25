@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 from art import *
 from classes import *
 
+
 ##########################################################################################################
 
 # OBJECTS SETUP: 

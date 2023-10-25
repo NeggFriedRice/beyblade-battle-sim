@@ -1,4 +1,7 @@
-import time, sys, subprocess
+import time
+import sys
+import subprocess
+
 
 # Delay print function
 def delay_print(s):
