@@ -95,3 +95,14 @@ colorama==0.4.6
 
     ![Upgrades shop](./docs/SHOP.png)
 - That's it! Enjoy yourself
+
+# Game features
+After registering for the tournament you will be able to participate in the 2023 BeyBlade Battle Bonanza
+- ## You can check your BeyBlade stats at any time
+    ![BeyBlade stats page](./docs/Stats.png)
+- ## You can check your own player stats at any time
+    ![Player stats page](./docs/Info.png)
+- ## Go to the store to buy upgrades for your BeyBlade
+    ![Upgrades shop page](./docs/Upgrades.png)
+- ## Battle an opponent and take home the prize!
+    ![Battle page](./docs/Battle.png)
