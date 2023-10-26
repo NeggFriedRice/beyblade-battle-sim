@@ -485,7 +485,6 @@ class Menu:
                 except KeyboardInterrupt:
                     Dialogue.quit_game()
 
-
     # Show menu HUD and info to player
     def hud(self):
         print(yellow +
