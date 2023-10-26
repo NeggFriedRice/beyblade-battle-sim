@@ -192,12 +192,16 @@ class Upgrades:
               f"stat upgrade: {Upgrades.speed_random_price} dollars" + colres)
         print(green + "[" + colres + "C" + green + "] Buy " + magenta +
               "STAMINA " + colres + green + "stat upgrade:"
-              f"{Upgrades.stamina_random_price} dollars\n" + colres)
-        Menu.hud(self)
+              f"{Upgrades.stamina_random_price} dollars\n\n" + colres)
+        print(green + "[" + colres + "E" + green + "] Exit store\n" +
+              colres)
         choice = input("")
         if (choice.upper() == "A" or choice.upper() == "B" or
                 choice.upper() == "C"):
             Upgrades.buy_upgrade(self, choice)
+        elif choice.upper() == "E":
+            clear_screen()
+            delay_print(green + "You left the store\n")
         else:
             raise InputError()
 
@@ -480,6 +484,7 @@ class Menu:
                     print(green + "This is not a valid selection" + colres)
                 except KeyboardInterrupt:
                     Dialogue.quit_game()
+
 
     # Show menu HUD and info to player
     def hud(self):
