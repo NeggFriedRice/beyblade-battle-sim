@@ -24,7 +24,6 @@ class Player:
         self.name = ""
         self.beyblade = BeyBlade()
         self.money = 200
-        self.playing = True
         self.win_counter = 0
         self.rounds_to_play = 3
         self.upgrades_count = 1
@@ -206,6 +205,7 @@ class Upgrades:
         clear_screen()
         # Upgrade failsafe, upgrades_count check prevents user from buying
         # more than one upgrade per round
+        self.shop_visit = 0
         if self.upgrades_count >= 1:
             if (input.upper() == "A" and self.money >=
                     Upgrades.strength_random_price):
@@ -215,7 +215,6 @@ class Upgrades:
                 delay_print(green + "You bought a " + colres + red +
                             "STRENGTH " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
-                self.shop_visit = 0
                 self.money -= Upgrades.strength_random_price
             elif (input.upper() == "B" and self.money >=
                     Upgrades.speed_random_price):
@@ -224,7 +223,6 @@ class Upgrades:
                 delay_print(green + "You bought a " + colres + cyan +
                             "SPEED " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
-                self.shop_visit = 0
                 self.money -= Upgrades.speed_random_price
             elif self.money >= Upgrades.stamina_random_price:
                 upgrades_banner()
@@ -232,7 +230,6 @@ class Upgrades:
                 delay_print(green + "You bought a " + colres + magenta +
                             "STAMINA " + colres + green + "upgrade!\n\n")
                 self.upgrades_count -= 1
-                self.shop_visit = 0
                 self.money -= Upgrades.stamina_random_price
             else:
                 upgrades_banner()
@@ -335,7 +332,7 @@ Goodluck!\n\n
 
     def end_game_stats(self):
         print(green + "Here are your end game stats: ")
-        print(green + "Name: " + white + f"{self.name}" + colres)
+        print(green + "Name: " + white + f"{self.name.capitalize()}" + colres)
         print(green + "BeyBlade: " + white +
               f"{self.beyblade.name.capitalize()}" + colres)
         print(red + "Strength: " + white + f"{self.beyblade.strength}" +
@@ -419,7 +416,7 @@ class InputError(Exception):
 class Menu:
 
     def menu(self):
-        while self.playing is True:
+        while True:
             # menu function checks after each input if end game requirements
             # satisfied (rounds_to_play == 0)
             if self.rounds_to_play == 0:
