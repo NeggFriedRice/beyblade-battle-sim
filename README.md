@@ -11,6 +11,8 @@ Thomas Loo - T1A3 - Terminal App
 ## Code style
 - PEP8 style
 
+For more information on the PEP8 code style please visit: https://peps.python.org/pep-0008/
+
 Please note that Line 458 of class.py file and ASCII banner art in art.py excceeds the 79 character limit due to long variable name and nesting.
 # Help Documentation
 
@@ -85,6 +87,8 @@ Please note that Line 458 of class.py file and ASCII banner art in art.py exccee
 ```
 colorama==0.4.6
 ```
+
+For more information please see colorama documentation located in references section
 # How to play the game
 - You have arrived on the scene of an international BeyBlade tournament
 - To take the win you will need to win at least 2 out of 3 rounds and have enough money leftover to fly home
@@ -106,3 +110,12 @@ After registering for the tournament you will be able to participate in the 2023
     ![Upgrades shop page](./docs/Upgrades.png)
 - ## Battle an opponent and take home the prize!
     ![Battle page](./docs/Battle.png)
+
+## References
+Colorama package https://pypi.org/project/colorama/
+
+PEP8 code style https://peps.python.org/pep-0008/
+
+Python minimum requirements https://support.enthought.com/hc/en-us/articles/204273874-Enthought-Python-Minimum-Hardware-Requirements
+
+Creating Mock objects for testing https://stackoverflow.com/questions/62552148/how-to-mock-name-attribute-with-unittest-mock-magicmock-or-mock-classes
