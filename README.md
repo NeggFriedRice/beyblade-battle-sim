@@ -70,13 +70,13 @@ Please note that Line 458 of class.py file and ASCII banner art in art.py exccee
     bash beyblade.sh
     ```
     This bash script will do the following:
-    - Check whether Python 3 has been installed on yoru system
+    - Check whether Python 3 has been installed on your system
     - Create and activate a virtual environment
     - Install the required dependencies (please see 'Dependencies' section for more information)
     - Run the app file
     - Deactivate the virtual environment when the app is closed
 
-    If you encounter issues running the bash script, enter the following into the terminal
+    If you encounter issues running the bash script, enter the following into the terminal and re-run the bash script
     ```
     chmod +x beyblade.sh 
     ```
@@ -98,7 +98,7 @@ For more information please see colorama documentation located in references sec
     ![HUD](./docs/HUD.png)
 
     ![Upgrades shop](./docs/SHOP.png)
-- That's it! Enjoy yourself
+- That's it! Enjoy yourself!
 
 # Game features
 After registering for the tournament you will be able to participate in the 2023 BeyBlade Battle Bonanza
